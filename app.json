@@ -21,10 +21,21 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aerley_adkins.Elysium"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8597560b-ea1b-4f20-ad88-138c54140521"
+      }
+    },
+
+    "scheme" : "com.aerley_adkins.Elysium"
   }
 }
