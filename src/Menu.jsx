@@ -10,7 +10,6 @@ import Profile from './components/screens/Profile';
 import Cart from './components/screens/Cart';
 import Search from './components/screens/Search';
 import Orders from './components/screens/Orders';
-import ProductView from './components/screens/modals/ProductView';
 
 const Tab = createBottomTabNavigator();
 const ActiveColor = '#000';
@@ -21,7 +20,7 @@ const Menu = () => {
         <Tab.Navigator
             screenOptions={{
                 tabBarStyle: {
-                    backgroundColor: '#fff',
+                    backgroundColor: '#f0f0f0',
                     elevation: 0,
                     shadowColor: '#fff',
                     shadowOpacity: 0,
@@ -29,9 +28,10 @@ const Menu = () => {
                         width: 0,
                         height: 0
                     },
-                    borderWidth: 1,
+                    borderWidth: 0,
                     borderColor: 'transparent',
-                    position: 'relative',
+                    margin: 10,
+                    borderRadius: 50,
                 },
             }}
         >
@@ -108,17 +108,6 @@ const Menu = () => {
                     ),
                     tabBarActiveTintColor: ActiveColor,
                     tabBarInactiveBackgroundColor: InActiveColor
-                }}
-            />
-
-            <Tab.Screen
-                name='Details'
-                component={ProductView}
-
-                options={{
-                    headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarButton: () => null
                 }}
             />
         </Tab.Navigator>

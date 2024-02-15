@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import Constants from "expo-constants";
 
 const SearchStyle = StyleSheet.create({
@@ -6,7 +6,7 @@ const SearchStyle = StyleSheet.create({
         height: '100%',
         width: '100%',
         backgroundColor: '#fff',
-        paddingTop: Constants.statusBarHeight || 0,
+        paddingTop: Constants.statusBarHeight + 10,
         paddingVertical: 20,
         paddingHorizontal: 10,
     },
@@ -18,10 +18,11 @@ const SearchStyle = StyleSheet.create({
     ContainerSearch: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
         height: 45,
         paddingLeft: 10,
-        borderRadius: 8
+        borderRadius: 8,
+        width: '85%'
     },
 
     filter: {
@@ -31,10 +32,13 @@ const SearchStyle = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    filtros: {
-        width: '100%',
-        gap: 20,
-        flexDirection: 'row'
+    filtroSelected: {
+        backgroundColor: '#faf7f0',
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#f7daa1',
     },
 
     closeIcon: {
@@ -86,6 +90,15 @@ const SearchStyle = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         gap: 10
+    },
+
+    FilterButton: {
+        height: 45,
+        width: 45,
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
     },
 })
 

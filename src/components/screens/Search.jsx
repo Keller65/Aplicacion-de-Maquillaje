@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -12,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchStyle from '../styles/SearchCSS';
 
 const Search = () => {
-  useFonts({
+  const [fontsLoaded] = useFonts({
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
   });
 
@@ -22,15 +23,14 @@ const Search = () => {
   const [productos, setProductos] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [changefilter, setChangefilter] = useState(false);
 
   const toggleFavoriteProduct = (productId) => {
     setSelectedProducts((prevSelected) => {
       if (prevSelected.includes(productId)) {
-        console.log('se agrego a favoritos: ', productId);
         saveToFavorites(productId, true);
         return prevSelected.filter((id) => id !== productId);
       } else {
-        console.log('se elimino de favoritos: ', productId);
         saveToFavorites(productId, false);
         return [...prevSelected, productId];
       }
@@ -133,50 +133,51 @@ const Search = () => {
   };
 
   useEffect(() => {
-    const favs = async () => {
-      const favadds = await AsyncStorage.getItem('favorites');
-      //console.log('favoritos: ', favadds);
+    async function prepare() {
+      if (fontsLoaded) {
+        await SplashScreen.hideAsync();
+      }
     }
 
-    favs()
-  }, [])
+    prepare();
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const ClickFilter = (filter) => {
+    console.log(filter);
+    setChangefilter(!changefilter);
+  }
 
   return (
     <View style={SearchStyle.SearchScreen}>
+      <View style={{ flexDirection: 'row', gap: 10, width: '100%' }}>
+        <View style={SearchStyle.ContainerSearch}>
+          <TouchableOpacity style={SearchStyle.filter}>
+            <Feather name='search' size={20} color='rgba(0, 0, 0, 0.5)' />
+          </TouchableOpacity>
 
-      <View style={SearchStyle.ContainerSearch}>
-        <TouchableOpacity style={SearchStyle.filter}>
-          <Feather name='search' size={20} color='rgba(0, 0, 0, 0.5)' />
+          <TextInput
+            onChange={(e) => handleSearch(e.nativeEvent.text)}
+            value={searchValue}
+            style={[SearchStyle.InputSearch, { fontFamily: 'Montserrat', width: '85%' }]}
+            placeholder='Buscar Producto'
+            keyboardType='default'
+          />
+
+          {searchValue ? <AntDesign onPress={DelteSearch} style={SearchStyle.closeIcon} name='close' size={18} color='rgba(0, 0, 0, 0.5)' /> : ''}
+        </View>
+
+        <TouchableOpacity style={SearchStyle.FilterButton}>
+          <Material name='filter' size={20} color='rgba(0, 0, 0, 0.5)' />
         </TouchableOpacity>
-
-        <TextInput
-          onChange={(e) => handleSearch(e.nativeEvent.text)}
-          value={searchValue}
-          style={[SearchStyle.InputSearch, { fontFamily: 'Regular' }]}
-          placeholder='Buscar Producto'
-          keyboardType='default'
-        />
-
-        {searchValue ? <AntDesign onPress={DelteSearch} style={SearchStyle.closeIcon} name='close' size={18} color='rgba(0, 0, 0, 0.5)' /> : ''}
-      </View>
-
-      <View style={SearchStyle.filtros}>
-        <View>
-          <Text>Descuento</Text>
-        </View>
-
-        <View>
-          <Text>Labiales</Text>
-        </View>
-
-        <View>
-          <Text>Bases</Text>
-        </View>
       </View>
 
       {searchValue !== '' ? (
         filteredProductos.length > 0 ? (
-          <View style={{ width: '100%', alignItems: 'center' }}>
+          <View style={{ width: '100%', alignItems: 'center', paddingBottom: 0 }}>
             <FlatList
               data={filteredProductos}
               keyExtractor={(item) => item.id}
@@ -206,13 +207,13 @@ const Search = () => {
         ) : (
           <View style={SearchStyle.NoResultsContainer}>
             <Material name='file-find' size={25} color='#bababa' />
-            <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Regular', color: '#bababa' }]}>Producto no encontrado</Text>
+            <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Montserrat', color: '#bababa' }]}>Producto no encontrado</Text>
           </View>
         )
       ) : (
         <View style={SearchStyle.NoResultsContainer}>
           <Icon name='sparkles-sharp' size={17} />
-          <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Regular' }]}>Buscar productos</Text>
+          <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Montserrat' }]}>Buscar productos</Text>
         </View>
       )}
 
