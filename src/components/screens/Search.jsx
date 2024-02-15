@@ -23,7 +23,6 @@ const Search = () => {
   const [productos, setProductos] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [changefilter, setChangefilter] = useState(false);
 
   const toggleFavoriteProduct = (productId) => {
     setSelectedProducts((prevSelected) => {
@@ -144,11 +143,6 @@ const Search = () => {
 
   if (!fontsLoaded) {
     return null;
-  }
-
-  const ClickFilter = (filter) => {
-    console.log(filter);
-    setChangefilter(!changefilter);
   }
 
   return (
