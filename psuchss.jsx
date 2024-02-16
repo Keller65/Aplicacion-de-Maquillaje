@@ -2,6 +2,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import Constants from "expo-constants";
 
 const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const Style = StyleSheet.create({
     Screen: {

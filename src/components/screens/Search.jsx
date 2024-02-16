@@ -147,7 +147,8 @@ const Search = () => {
 
   return (
     <View style={SearchStyle.SearchScreen}>
-      <View style={{ flexDirection: 'row', gap: 10, width: '100%' }}>
+
+      <View style={{ flexDirection: 'row', gap: 10, width: '100%', marginVertical: 10 }}>
         <View style={SearchStyle.ContainerSearch}>
           <TouchableOpacity style={SearchStyle.filter}>
             <Feather name='search' size={20} color='rgba(0, 0, 0, 0.5)' />
@@ -171,7 +172,7 @@ const Search = () => {
 
       {searchValue !== '' ? (
         filteredProductos.length > 0 ? (
-          <View style={{ width: '100%', alignItems: 'center', paddingBottom: 0 }}>
+          <View style={{ width: '100%', alignItems: 'center', paddingBottom: 25 }}>
             <FlatList
               data={filteredProductos}
               keyExtractor={(item) => item.id}

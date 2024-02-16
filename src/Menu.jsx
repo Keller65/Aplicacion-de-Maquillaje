@@ -20,7 +20,6 @@ const Menu = () => {
         <Tab.Navigator
             screenOptions={{
                 tabBarStyle: {
-                    backgroundColor: '#f0f0f0',
                     elevation: 0,
                     shadowColor: '#fff',
                     shadowOpacity: 0,

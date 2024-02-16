@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity, Animated, Easing, Image, View, ScrollView } from 'react-native';
 import Style from './style';
 import { useFonts } from 'expo-font';
@@ -12,26 +12,8 @@ const ProductView = ({ productDetails, closeProductView }) => {
     Regular: require('../../../../assets/fonts/MontserratAlternates-Regular.ttf')
   });
 
-  const [fadeAnim] = useState(new Animated.Value(0));
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 100,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
-
   const handleModalClose = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 90,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start(() => {
-      closeProductView();
-    });
+    closeProductView();
   };
 
   if (!fontloaded) {
@@ -59,7 +41,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
     }
   }
   return (
-    <Animated.View style={[Style.Screen, { opacity: fadeAnim }]}>
+    <View style={[Style.Screen]}>
       {
         productDetails.descuento ?
           <View style={Style.Badge}>
@@ -71,7 +53,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
       }
 
       <View>
-        <ScrollView horizontal={true} style={Style.ContainerImageView} showsHorizontalScrollIndicator={false}>
+        <ScrollView horizontal={true} style={Style.ContainerImageView}>
           <View style={Style.ImageView}>
             <Image source={{ uri: productDetails.imagenProduct }} style={{ width: '100%', height: '100%' }} />
           </View>
@@ -104,7 +86,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
       <View style={Style.ContainerTonos}>
         <Text style={[Style.TextTonos, { fontFamily: 'Regular' }]}>tonos</Text>
         <View style={{ width: '100%', flexDirection: 'row', gap: 10 }}>
-          {productDetails?.tonos.map((tono, index) => (
+          {productDetails.tonos.map((tono, index) => (
             <Text key={index} style={{ height: 20, width: 20, backgroundColor: tono, borderRadius: 50 }}></Text>
           ))}
         </View>
@@ -117,7 +99,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
         </TouchableOpacity>
       </View>
 
-    </Animated.View>
+    </View>
   );
 };
 
