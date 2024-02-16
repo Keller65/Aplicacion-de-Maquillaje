@@ -20,7 +20,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
       },
       "package": "com.aerley_adkins.Elysium"
     },
@@ -28,14 +29,15 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-localization",
+      "expo-localization"
     ],
     "extra": {
       "eas": {
         "projectId": "8597560b-ea1b-4f20-ad88-138c54140521"
       }
     },
-
-    "scheme" : "com.aerley_adkins.Elysium"
+    "scheme": "com.aerley_adkins.Elysium"
   }
 }

@@ -61,6 +61,24 @@ export default function Profile() {
     }
   }
 
+  const [country, setCountry] = useState('');
+
+  useEffect(() => {
+    const GetLocation = async () => {
+      try {
+        const storedCountry = await AsyncStorage.getItem('country');
+        if (storedCountry) {
+          setCountry(storedCountry);
+          console.log(storedCountry);
+        }
+      } catch (error) {
+        console.error('Error loading country from AsyncStorage:', error);
+      }
+    };
+
+    GetLocation();
+  }, []);
+
   const photoUri = 'https://lh3.googleusercontent.com/a/ACg8ocLvMGoBe_d7HwbYpeZphxMpu4Y58yKusXAQ0UYNW0rf8qo=s96-c';
 
   return (
@@ -132,9 +150,17 @@ export default function Profile() {
           <View style={{ paddingHorizontal: 20 }}>
             <View style={ProfileStyle.ConatinerUp}>
               <Image style={ProfileStyle.PhotoUser} source={{ uri: photoUri }} />
-              <View style={ProfileStyle.badge}>
-                <Text style={{ fontFamily: 'PoppinsLigth', fontSize: 12, color: '#7d7d7d' }}>Aerley Lopez</Text>
+
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <View style={ProfileStyle.badge}>
+                  <Text style={{ fontFamily: 'PoppinsLigth', fontSize: 12, color: '#7d7d7d' }}>Aerley Lopez</Text>
+                </View>
+
+                <View style={ProfileStyle.badge}>
+                  <Text style={{ fontFamily: 'PoppinsLigth', fontSize: 12, color: '#7d7d7d' }}>{country}</Text>
+                </View>
               </View>
+
             </View>
             <TouchableHighlight>
               <View style={ProfileStyle.CerrarSesion}>

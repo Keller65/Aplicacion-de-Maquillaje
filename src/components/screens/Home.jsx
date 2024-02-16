@@ -4,11 +4,46 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFonts } from 'expo-font';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Location from 'expo-location';
 import app from '../../DB/firebaseConfig';
 import HomeStyle from '../styles/HomeCSS';
 
 const Home = () => {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [country, setCountry] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permiso de ubicación no otorgado');
+          return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+
+        let reverseGeocode = await Location.reverseGeocodeAsync({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        });
+
+        if (reverseGeocode && reverseGeocode.length > 0) {
+          const countryName = reverseGeocode[0].country + " " + reverseGeocode[0].subregion;
+          const pais = reverseGeocode[0].country;
+          setCountry(countryName);
+          await AsyncStorage.setItem('country', pais);
+        }
+      } catch (error) {
+        setErrorMsg('Error al obtener la ubicación: ' + error.message);
+      }
+    })();
+  }, []);
+
   const [productos, setProductos] = useState([]);
   const [fontsLoaded] = useFonts({
     Poppins: require('../../../assets/fonts/PoppinsRegular.ttf'),
@@ -38,7 +73,7 @@ const Home = () => {
         }));
 
         setProductos(productosData);
-        console.log('Productos:', productosData);
+        //console.log('Productos:', productosData);
       } catch (error) {
         console.error('Error al obtener productos:', error);
       }
@@ -64,6 +99,8 @@ const Home = () => {
         <Text style={{ fontFamily: 'Poppins' }}>¡Bienvenido otra vez!</Text>
         <Image source={{ uri: photoUri }} style={{ width: 50, height: 50, borderRadius: 50 }} />
       </View>
+
+      <Text>{country}</Text>
 
       <Image style={{ width: '100%', height: 130, borderRadius: 20 }} source={require('../../../assets/post.png')} />
 
