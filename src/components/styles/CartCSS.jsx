@@ -1,14 +1,16 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import Constants from "expo-constants";
+
+const screen = Dimensions.get('window').width;
 
 const CartStyle = StyleSheet.create({
     CartScreen: {
         height: '100%',
         width: '100%',
         backgroundColor: '#fff',
-        paddingTop: Constants.statusBarHeight || 0,
+        paddingTop: Constants.statusBarHeight,
         paddingHorizontal: 10,
-        justifyContent: 'space-between',
+        position: 'relative'
     },
 
     ContainerCarritoCards: {
@@ -22,9 +24,9 @@ const CartStyle = StyleSheet.create({
         width: '100%',
         gap: 10,
         padding: 5,
-        marginTop: 5,
         flexDirection: 'row',
-        position: 'relative'
+        position: 'relative',
+        marginTop: 5
     },
 
     tono: {
@@ -73,7 +75,23 @@ const CartStyle = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10,
         borderRadius: 50
-    }
+    },
+
+    ContainerOpenCart: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingTop: 10,
+    },
+    
+    ContainerBuy: {
+        width: screen,
+        position: 'absolute',
+        bottom: 0,
+        paddingHorizontal: 10,
+        gap: 10
+    },
 })
 
 export default CartStyle;

@@ -36,6 +36,21 @@ const Menu = () => {
         >
 
             <Tab.Screen
+                name='Carrito'
+                component={Cart}
+
+                options={{
+                    headerShown: false,
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name='shopping-bag' color={color} size={size} />
+                    ),
+                    tabBarActiveTintColor: ActiveColor,
+                    tabBarInactiveBackgroundColor: InActiveColor
+                }}
+            />
+
+            <Tab.Screen
                 name='Inicio'
                 component={Home}
 
@@ -74,21 +89,6 @@ const Menu = () => {
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name='layers' color={color} size={size} />
-                    ),
-                    tabBarActiveTintColor: ActiveColor,
-                    tabBarInactiveBackgroundColor: InActiveColor
-                }}
-            />
-
-            <Tab.Screen
-                name='Carrito'
-                component={Cart}
-
-                options={{
-                    headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialIcons name='shopping-bag' color={color} size={size} />
                     ),
                     tabBarActiveTintColor: ActiveColor,
                     tabBarInactiveBackgroundColor: InActiveColor

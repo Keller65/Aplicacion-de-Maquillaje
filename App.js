@@ -3,14 +3,14 @@ import { StyleSheet } from 'react-native';
 import Menu from './src/Menu';
 import { NavigationContainer } from '@react-navigation/native';
 import Login from './src/components/login/page';
-import BoardOne from './src/components/onboardigs/BoardOne';
+import Loading from './src/components/Loading';
 
 const OAuthtoken = ' ';
 
 export default function App() {
   return (
     <NavigationContainer style={styles.container}>
-      {OAuthtoken ? <Menu /> : <Login />}
+      {OAuthtoken ? <Menu /> : <Loading />}
       <StatusBar style="auto" />
     </NavigationContainer>
   );

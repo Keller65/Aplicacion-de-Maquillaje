@@ -1,9 +1,11 @@
-import { Image, Text, View, FlatList, TouchableHighlight, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Image, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CartStyle from '../styles/CartCSS';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Feather';
-import Ticket from 'react-native-vector-icons/MaterialCommunityIcons'
+import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Animated, { useSharedValue, withSpring, useAnimatedStyle, } from 'react-native-reanimated';
 import { useFonts } from 'expo-font';
 
 const Cart = () => {
@@ -39,7 +41,7 @@ const Cart = () => {
     }
 
     //deleteItems();
-  }, []);
+  });
 
   useEffect(() => {
     const calculateTotal = () => {
@@ -80,8 +82,28 @@ const Cart = () => {
     </View>
   );
 
+  const rotation = useSharedValue(0);
+
+  const OpenCart = () => {
+    console.log('se abrio el carrito');
+    rotation.value = withSpring(rotation.value === 0 ? 90 : 0);
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: `${rotation.value}deg` }],
+    };
+  });
+
   return (
     <View style={CartStyle.CartScreen}>
+
+      <TouchableOpacity onPress={OpenCart} style={CartStyle.ContainerOpenCart}>
+        <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>ver productos</Text>
+        <Animated.View style={[animatedStyle]}>
+          <EvilIcons name='chevron-right' size={40} />
+        </Animated.View>
+      </TouchableOpacity>
 
       <View style={CartStyle.ContainerCarritoCards}>
         <Text>{productos.length} Productos en el Carrito</Text>
@@ -95,38 +117,39 @@ const Cart = () => {
         />
       </View>
 
-      <View style={{ gap: 15 }}>
-        <View style={CartStyle.TaxesContainer}>
+      <View style={CartStyle.ContainerBuy}>
+        <View style={{ gap: 15 }}>
+          <View style={CartStyle.TaxesContainer}>
 
-          <View style={CartStyle.Total}>
-            <Text style={{ fontFamily: 'Poppins', width: 'auto' }}>Subtotal</Text>
-            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {total.toFixed(2)}</Text>
+            <View style={CartStyle.Total}>
+              <Text style={{ fontFamily: 'Poppins', width: 'auto' }}>Subtotal</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {total.toFixed(2)}</Text>
+            </View>
+
+            <View style={CartStyle.Total}>
+              <Text style={{ fontFamily: 'Poppins' }}>ISV</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15).toFixed(2)}</Text>
+            </View>
+
+            <View style={CartStyle.Total}>
+              <Text style={{ fontFamily: 'Poppins' }}>Descuento</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {productos.length >= 3 ? (total * 0.15).toFixed(2) : ''}</Text>
+            </View>
+
+            <View style={CartStyle.Total}>
+              <Text style={{ fontFamily: 'Poppins' }}>Total</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15 + total).toFixed(2)}</Text>
+            </View>
+
           </View>
-
-          <View style={CartStyle.Total}>
-            <Text style={{ fontFamily: 'Poppins' }}>ISV</Text>
-            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15).toFixed(2)}</Text>
-          </View>
-
-          <View style={CartStyle.Total}>
-            <Text style={{ fontFamily: 'Poppins' }}>Descuento</Text>
-            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {productos.length >= 3 ? (total * 0.15).toFixed(2) : ''}</Text>
-          </View>
-
-          <View style={CartStyle.Total}>
-            <Text style={{ fontFamily: 'Poppins' }}>Total</Text>
-            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15 + total).toFixed(2)}</Text>
-          </View>
-
         </View>
 
-        <View style={{ width: '100%', height: 65, alignItems: 'center', }}>
+        <View>
           <TouchableOpacity style={CartStyle.BuyButton}>
             <Icon name='shopping-bag' size={26} color='#fff' />
             <Text style={{ color: '#fff' }} >Reservar Pedido</Text>
           </TouchableOpacity>
         </View>
-
       </View>
 
     </View>
