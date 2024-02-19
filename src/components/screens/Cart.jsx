@@ -4,6 +4,7 @@ import CartStyle from '../styles/CartCSS';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Feather';
 import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Animated, { useSharedValue, withSpring, useAnimatedStyle, } from 'react-native-reanimated';
 import { useFonts } from 'expo-font';
@@ -118,38 +119,43 @@ const Cart = () => {
       </View>
 
       <View style={CartStyle.ContainerBuy}>
-        <View style={{ gap: 15 }}>
-          <View style={CartStyle.TaxesContainer}>
+        <View style={CartStyle.TaxesContainer}>
 
-            <View style={CartStyle.Total}>
+          <View style={CartStyle.Total}>
+            <View style={CartStyle.ViewIcon}>
+              <MaterialIcons name='discount' size={20} />
               <Text style={{ fontFamily: 'Poppins', width: 'auto' }}>Subtotal</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {total.toFixed(2)}</Text>
             </View>
 
-            <View style={CartStyle.Total}>
-              <Text style={{ fontFamily: 'Poppins' }}>ISV</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15).toFixed(2)}</Text>
-            </View>
-
-            <View style={CartStyle.Total}>
-              <Text style={{ fontFamily: 'Poppins' }}>Descuento</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {productos.length >= 3 ? (total * 0.15).toFixed(2) : ''}</Text>
-            </View>
-
-            <View style={CartStyle.Total}>
-              <Text style={{ fontFamily: 'Poppins' }}>Total</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15 + total).toFixed(2)}</Text>
-            </View>
-
+            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {total.toFixed(2)}</Text>
           </View>
+
+          <View style={CartStyle.Total}>
+            <View style={CartStyle.ViewIcon}>
+              <Image source={require('../../../assets/taxes.png')} style={{ height: 20, width: 20 }} />
+              <Text style={{ fontFamily: 'Poppins' }}>ISV</Text>
+            </View>
+
+            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15).toFixed(2)}</Text>
+          </View>
+
+          <View style={CartStyle.Total}>
+            <Ticket name='ticket-confirmation-outline' size={23} />
+            <Text style={{ fontFamily: 'Poppins' }}>Descuento</Text>
+            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {productos.length >= 3 ? (total * 0.15).toFixed(2) : ''}</Text>
+          </View>
+
+          <View style={CartStyle.Total}>
+            <Text style={{ fontFamily: 'Poppins' }}>Total</Text>
+            <Text style={{ fontFamily: 'Poppins', fontSize: 12 }}>L. {(total * 0.15 + total).toFixed(2)}</Text>
+          </View>
+
         </View>
 
-        <View>
-          <TouchableOpacity style={CartStyle.BuyButton}>
-            <Icon name='shopping-bag' size={26} color='#fff' />
-            <Text style={{ color: '#fff' }} >Reservar Pedido</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={CartStyle.BuyButton}>
+          <Icon name='shopping-bag' size={26} color='#fff' />
+          <Text style={{ color: '#fff' }} >Reservar Pedido</Text>
+        </TouchableOpacity>
       </View>
 
     </View>

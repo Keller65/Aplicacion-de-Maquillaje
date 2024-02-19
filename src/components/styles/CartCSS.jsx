@@ -41,7 +41,7 @@ const CartStyle = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 12,
+        borderRadius: 50,
         flexDirection: 'row',
         gap: 10,
     },
@@ -50,16 +50,16 @@ const CartStyle = StyleSheet.create({
         gap: 10,
     },
 
+    ViewIcon: {
+        flexDirection: 'row',
+        gap: 10
+    },
+
     Total: {
         width: '100%',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: '#f2f2f2',
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
         paddingBottom: 5
     },
 
@@ -84,7 +84,7 @@ const CartStyle = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 10,
     },
-    
+
     ContainerBuy: {
         width: screen,
         position: 'absolute',
