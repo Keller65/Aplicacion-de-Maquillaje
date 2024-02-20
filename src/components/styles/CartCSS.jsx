@@ -14,12 +14,12 @@ const CartStyle = StyleSheet.create({
     },
 
     ContainerCarritoCards: {
-        gap: 10,
+        zIndex: 1
     },
 
     itemProductoCard: {
         width: '100%',
-        backgroundColor: '#f0ece691', // #DEDEC5
+        backgroundColor: 'transparent', // #f0ece691
         borderRadius: 15,
         width: '100%',
         gap: 10,
@@ -30,8 +30,8 @@ const CartStyle = StyleSheet.create({
     },
 
     tono: {
-        height: 15,
-        width: 15,
+        height: 12,
+        width: 12,
         borderRadius: 50
     },
 
@@ -47,7 +47,7 @@ const CartStyle = StyleSheet.create({
     },
 
     TaxesContainer: {
-        gap: 10,
+        gap: 8,
     },
 
     ViewIcon: {
@@ -60,7 +60,6 @@ const CartStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        paddingBottom: 5
     },
 
     TagEstado: {
@@ -77,20 +76,32 @@ const CartStyle = StyleSheet.create({
         borderRadius: 50
     },
 
-    ContainerOpenCart: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingTop: 10,
-    },
-
     ContainerBuy: {
         width: screen,
         position: 'absolute',
         bottom: 0,
         paddingHorizontal: 10,
-        gap: 10
+        gap: 10,
+    },
+
+    Enabled: {
+        height: 22,
+        width: 22,
+        backgroundColor: '#000',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8
+    },
+
+    Disabled: {
+        height: 22,
+        width: 22,
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: '#000'
     },
 })
 
