@@ -51,54 +51,51 @@ const Cart = () => {
     calculateTotal();
   }, [productos]);
 
-  const renderItem = ({ item, index }) => (
-    <View key={index} style={CartStyle.itemProductoCard}>
-
-      {
-        item.estado ?
-          <View style={CartStyle.TagEstado}>
-            <Ticket size={15} name='ticket-percent' color='#2fad33' />
-            <Text style={{ fontFamily: 'Montserrat', fontSize: 8, color: '#2fad33' }}>Descuento</Text>
-          </View> : ''
-      }
-
-      <View>
-        <Image source={{ uri: item.imagen }} style={{ height: SizeImage, width: SizeImage, backgroundColor: '#f0ece6', borderRadius: 15 }} />
-      </View>
-
-      <View style={{ justifyContent: 'space-evenly' }}>
-        <View>
-          <Text style={{ fontFamily: 'Montserrat', fontSize: 13 }}>{item.producto}</Text>
-          <Text style={{ fontFamily: 'Montserrat', fontSize: 10 }}>{item.marca}</Text>
-        </View>
-
-        <View style={[CartStyle.tono, { fontFamily: 'Montserrat', backgroundColor: item.tono }]}></View>
-
-        <View>
-          <Text style={{ fontFamily: 'Montserrat2', fontSize: 10 }}>L. {(item.precio).toFixed(0)}</Text>
-        </View>
-      </View>
-    </View>
-  );
-
   const Check = () => {
     setEnabled(!enabled);
-    console.warn(enabled)
   }
 
   return (
     <View style={CartStyle.CartScreen}>
 
-      <TouchableWithoutFeedback onPress={Check}>
-        <View style={[enabled === false ? CartStyle.Disabled : CartStyle.Enabled]}>
-          <Icon name='check' size={11} color='#fff' />
-        </View>
-      </TouchableWithoutFeedback>
-
       <View style={[CartStyle.ContainerCarritoCards, { height: 390, width: '100%' }]}>
         <FlatList
           data={productos}
-          renderItem={renderItem}
+          renderItem={({ item, index }) => (
+            <View key={index} style={CartStyle.itemProductoCard}>
+
+              <TouchableWithoutFeedback onPress={Check}>
+                <View style={[enabled === false ? CartStyle.Disabled : CartStyle.Enabled]}>
+                  <Icon name='check' size={11} color='#fff' />
+                </View>
+              </TouchableWithoutFeedback>
+
+              {
+                item.estado ?
+                  <View style={CartStyle.TagEstado}>
+                    <Ticket size={15} name='ticket-percent' color='#2fad33' />
+                    <Text style={{ fontFamily: 'Montserrat', fontSize: 8, color: '#2fad33' }}>Descuento</Text>
+                  </View> : ''
+              }
+
+              <View>
+                <Image source={{ uri: item.imagen }} style={{ height: SizeImage, width: SizeImage, backgroundColor: '#f0ece6', borderRadius: 15 }} />
+              </View>
+
+              <View style={{ justifyContent: 'space-evenly' }}>
+                <View>
+                  <Text style={{ fontFamily: 'Montserrat', fontSize: 13 }}>{item.producto}</Text>
+                  <Text style={{ fontFamily: 'Montserrat', fontSize: 10 }}>{item.marca}</Text>
+                </View>
+
+                <View style={[CartStyle.tono, { fontFamily: 'Montserrat', backgroundColor: item.tono }]}></View>
+
+                <View>
+                  <Text style={{ fontFamily: 'Montserrat2', fontSize: 10 }}>L. {(item.precio).toFixed(0)}</Text>
+                </View>
+              </View>
+            </View>
+          )}
           keyExtractor={(item, index) => index.toString()}
         />
       </View>

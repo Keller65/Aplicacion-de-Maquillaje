@@ -26,7 +26,14 @@ const CartStyle = StyleSheet.create({
         padding: 5,
         flexDirection: 'row',
         position: 'relative',
-        marginTop: 5
+        marginTop: 5,
+        alignItems: 'center'
+    },
+
+    SwipedItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 30
     },
 
     tono: {
