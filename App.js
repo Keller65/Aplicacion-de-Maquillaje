@@ -4,23 +4,26 @@ import Menu from './src/Menu';
 import { NavigationContainer } from '@react-navigation/native';
 import Login from './src/components/login/page';
 import Loading from './src/components/Loading';
+import Swiper from './src/components/Swiper';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const OAuthtoken = ' ';
 
 export default function App() {
   return (
-    <NavigationContainer style={styles.container}>
-      {OAuthtoken ? <Menu /> : <Loading />}
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <GestureHandlerRootView style={styles.container}>
+      <NavigationContainer>
+        {OAuthtoken ? <Menu /> : <Swiper />}
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    height: '100%'
   },
 });

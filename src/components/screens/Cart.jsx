@@ -4,6 +4,7 @@ import CartStyle from '../styles/CartCSS';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Feather';
 import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useFonts } from 'expo-font';
 
 const Cart = () => {
