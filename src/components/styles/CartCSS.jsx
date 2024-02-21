@@ -8,87 +8,36 @@ const CartStyle = StyleSheet.create({
         height: '100%',
         width: '100%',
         backgroundColor: '#fff',
-        paddingTop: Constants.statusBarHeight,
+        paddingTop: Constants.statusBarHeight + 10,
         paddingHorizontal: 10,
         position: 'relative'
     },
 
-    ContainerCarritoCards: {
-        zIndex: 1
-    },
-
-    itemProductoCard: {
-        width: '100%',
-        backgroundColor: 'transparent', // #f0ece691
-        borderRadius: 15,
-        width: '100%',
+    Producto: {
+        flexDirection: 'row',
         gap: 10,
-        padding: 5,
-        flexDirection: 'row',
-        position: 'relative',
-        marginTop: 5,
-        alignItems: 'center'
+        backgroundColor: '#fff'
     },
 
-    SwipedItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 30
+    ImagenProduct: {
+        height: 80,
+        width: 80,
+        backgroundColor: '#f0ece6',
+        borderRadius: 15
     },
 
-    tono: {
-        height: 12,
-        width: 12,
-        borderRadius: 50
-    },
-
-    BuyButton: {
-        width: '100%',
-        backgroundColor: '#000',
-        padding: 20,
-        alignItems: 'center',
+    DeleteFavoritos: {
         justifyContent: 'center',
-        borderRadius: 50,
-        flexDirection: 'row',
-        gap: 10,
-    },
-
-    TaxesContainer: {
-        gap: 8,
-    },
-
-    ViewIcon: {
-        flexDirection: 'row',
-        gap: 10
-    },
-
-    Total: {
-        width: '100%',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
+        width: 80,
+        height: '100%',
+        right: 0,
+        backgroundColor: '#09f'
     },
 
-    TagEstado: {
-        position: 'absolute',
-        right: 10,
-        top: 10,
-        flexDirection: 'row',
-        gap: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#9effa1',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 50
-    },
-
-    ContainerBuy: {
-        width: screen,
-        position: 'absolute',
-        bottom: 0,
-        paddingHorizontal: 10,
-        gap: 10,
+    deleteText: {
+        color: 'white',
+        fontWeight: 'bold',
     },
 
     Enabled: {
@@ -109,6 +58,26 @@ const CartStyle = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 2,
         borderColor: '#000'
+    },
+
+    TagEstado: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+        flexDirection: 'row',
+        gap: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#9effa1',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 50
+    },
+
+    tono: {
+        height: 12,
+        width: 12,
+        borderRadius: 50
     },
 })
 
