@@ -58,6 +58,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
       console.error('Error al agregar al carrito:', error);
     }
   }
+  
   return (
     <Animated.View style={[Style.Screen, { opacity: fadeAnim }]}>
       {
@@ -89,7 +90,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
         <Text style={{ fontFamily: 'Regular', fontSize: 16 }}>{productDetails.marca}</Text>
 
         <Text style={{ fontFamily: 'Regular', fontSize: 16, position: 'absolute', right: 0 }}>
-          L. {productDetails.precio - productDetails?.descuento}
+          L. {(productDetails.precio - productDetails?.descuento).toFixed(0)}
         </Text>
       </View>
 

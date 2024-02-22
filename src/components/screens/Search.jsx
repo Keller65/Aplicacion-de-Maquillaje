@@ -189,7 +189,7 @@ const Search = () => {
 
                     <View style={SearchStyle.ContainerPrice}>
                       <Text style={{ fontFamily: 'Montserrat' }}>{item.marca}</Text>
-                      <Text style={{ fontFamily: 'Montserrat' }}>L. {item.precio - item.descuento}</Text>
+                      <Text style={{ fontFamily: 'Montserrat' }}>L. {(item.precio - item.descuento).toFixed(0)}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>

@@ -32,7 +32,7 @@ const CartStyle = StyleSheet.create({
         width: 80,
         height: '100%',
         right: 0,
-        backgroundColor: '#09f'
+        backgroundColor: '#fff'
     },
 
     deleteText: {

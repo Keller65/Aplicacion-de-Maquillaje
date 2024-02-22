@@ -1,15 +1,16 @@
-import { View, Text, TouchableWithoutFeedback, Image, FlatList } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import CartStyle from '../styles/CartCSS';
 import Icon from 'react-native-vector-icons/Feather';
 import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
+import Trash from 'react-native-vector-icons/Ionicons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 
 const Cart = () => {
   const [productos, setProductos] = useState([]);
-  const [enabled, setEnabled] = useState(false);
+  const [selectedItems, setSelectedItems] = useState(new Set());
 
   useFonts({
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
@@ -24,7 +25,6 @@ const Cart = () => {
         if (favorites) {
           const parsedFavorites = JSON.parse(favorites);
           setProductos(parsedFavorites);
-          console.log(parsedFavorites);
         }
       } catch (error) {
         console.error('Error al obtener productos del AsyncStorage:', error);
@@ -34,21 +34,36 @@ const Cart = () => {
     ChangeCarrito();
   }, []);
 
-  const Check = () => {
-    setEnabled(!enabled);
+  const Check = (index) => {
+    const updatedSelectedItems = new Set(selectedItems);
+    if (updatedSelectedItems.has(index)) {
+      updatedSelectedItems.delete(index);
+    } else {
+      updatedSelectedItems.add(index);
+    }
+    setSelectedItems(updatedSelectedItems);
   }
 
   const renderRightActions = (index) => (
     <View style={CartStyle.DeleteFavoritos}>
-      <TouchableWithoutFeedback onPress={Check}>
-        <View style={[enabled === false ? CartStyle.Disabled : CartStyle.Enabled]}>
-          {enabled === true ? <Icon name='minus' size={11} color='#fff' /> : ''}
+      <TouchableWithoutFeedback onPress={() => Check(index)}>
+        <View style={[selectedItems.has(index) ? CartStyle.Enabled : CartStyle.Disabled]}>
+          {selectedItems.has(index) ? <Icon name='minus' size={11} color='#fff' /> : ''}
         </View>
       </TouchableWithoutFeedback>
     </View>
   );
 
-  const handleDeleteItem = (index) => {
+  const handleDeleteItem = async () => {
+    const updatedProducts = productos.filter((_, index) => !selectedItems.has(index));
+
+    try {
+      await AsyncStorage.setItem('Carrito', JSON.stringify(updatedProducts));
+      setProductos(updatedProducts);
+      setSelectedItems(new Set());
+    } catch (error) {
+      console.error('Error al eliminar productos del AsyncStorage:', error);
+    }
   };
 
   const renderItem = ({ item, index }) => (
@@ -72,8 +87,25 @@ const Cart = () => {
     </Swipeable>
   );
 
+  const renderDeleteSection = () => {
+    if (selectedItems.size > 0) {
+      return (
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+          <Text style={{ fontFamily: 'Montserrat' }}>
+            {`Eliminar ${selectedItems.size} producto${selectedItems.size > 1 ? 's' : ''}`}
+          </Text>
+          <TouchableOpacity onPress={handleDeleteItem}>
+            <Trash name='trash-bin' size={20} />
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={CartStyle.CartScreen}>
+      {renderDeleteSection()}
       <View style={{ height: 380, width: '100%' }}>
         <FlatList
           data={productos}
