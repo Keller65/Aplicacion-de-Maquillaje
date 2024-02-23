@@ -10,7 +10,6 @@ const CartStyle = StyleSheet.create({
         backgroundColor: '#fff',
         paddingTop: Constants.statusBarHeight + 10,
         paddingHorizontal: 10,
-        position: 'relative'
     },
 
     Producto: {
@@ -78,6 +77,102 @@ const CartStyle = StyleSheet.create({
         height: 12,
         width: 12,
         borderRadius: 50
+    },
+
+    EntregaButton: {
+        height: 100,
+        width: 180,
+        backgroundColor: 'transparent',
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(0,0,0,0.2)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+    },
+
+    EntrgaActive: {
+        height: 100,
+        width: 180,
+        backgroundColor: 'transparent',
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: 'rgb(0,0,0)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+    },
+
+    Badge: {
+        backgroundColor: '#FFE8CD',
+        position: 'absolute',
+        left: 7,
+        top: 7,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        padding: 6,
+    },
+
+    BuyBtn: {
+        backgroundColor: '#000',
+        flexDirection: 'row',
+        width: '70%',
+        paddingVertical: 15 ,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10,
+        borderRadius: 50,
+        position: 'relative'
+    },
+
+    PriceBuy: {
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        width: 'auto',
+        paddingVertical: 13,
+        paddingHorizontal: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: '#000'
+    },
+
+    TaxesContainer: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderTopColor: '#fff',
+        borderLeftColor: '#fff',
+        borderRightColor: '#fff',
+        borderBottomColor: 'rgba(0,0,0,0.05)',
+        marginBottom: 5
+    },
+
+    PromoCode: {
+        width: '100%',
+        backgroundColor: 'transparent',
+        padding: 5,
+        borderRadius: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderWidth: 1,
+        borderColor: '#f2f2f2',
+        height: 50
+    },
+
+    PromoCodeBtn: {
+        height: '100%',
+        backgroundColor: '#000',
+        paddingHorizontal: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
     },
 })
 
