@@ -163,7 +163,8 @@ const CartStyle = StyleSheet.create({
         justifyContent: 'space-between',
         borderWidth: 1,
         borderColor: '#f2f2f2',
-        height: 50
+        height: 50,
+        marginTop: 10
     },
 
     PromoCodeBtn: {

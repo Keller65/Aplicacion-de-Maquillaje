@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration, InteractionManager, Animated } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import CartStyle from '../styles/CartCSS';
 import Icon from 'react-native-vector-icons/Feather';
@@ -125,7 +125,7 @@ const Cart = () => {
   };
 
   const [entrega, setEntrega] = useState(false);
-  const VIBRATION = 10;
+  const VIBRATION = 13;
 
   const TypeEntrga = (value) => {
     setEntrega(value);
