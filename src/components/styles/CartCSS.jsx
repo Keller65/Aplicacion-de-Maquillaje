@@ -121,11 +121,11 @@ const CartStyle = StyleSheet.create({
         backgroundColor: '#000',
         flexDirection: 'row',
         width: '70%',
-        paddingVertical: 15 ,
+        paddingVertical: 10 ,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,
-        borderRadius: 50,
+        borderRadius: 18,
         position: 'relative'
     },
 
@@ -133,13 +133,10 @@ const CartStyle = StyleSheet.create({
         backgroundColor: 'transparent',
         flexDirection: 'row',
         width: 'auto',
-        paddingVertical: 13,
+        paddingVertical: 15,
         paddingHorizontal: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 50,
-        borderWidth: 1,
-        borderColor: '#000'
     },
 
     TaxesContainer: {
@@ -150,7 +147,7 @@ const CartStyle = StyleSheet.create({
         borderLeftColor: '#fff',
         borderRightColor: '#fff',
         borderBottomColor: 'rgba(0,0,0,0.05)',
-        marginBottom: 5
+        marginBottom: 5,
     },
 
     PromoCode: {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration, InteractionManager, Animated } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration, LayoutAnimation, UIManager, Keyboard } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import CartStyle from '../styles/CartCSS';
 import Icon from 'react-native-vector-icons/Feather';
@@ -8,15 +8,22 @@ import Trash from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import loaderCart from '../../../assets/cart.png';
 import Store from '../../../assets/store.png';
+import app from '../../DB/firebaseConfig';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useFonts } from 'expo-font';
 
 const large = Dimensions.get('window').width;
 const BtnImg = 35;
+const SizeText = 11;
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const Cart = () => {
   const [productos, setProductos] = useState([]);
   const [total, setTotal] = useState(0);
   const [selectedItems, setSelectedItems] = useState(new Set());
+  const [expanded, setExpanded] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [discount, setDiscount] = useState(0);
 
   useFonts({
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
@@ -125,18 +132,53 @@ const Cart = () => {
   };
 
   const [entrega, setEntrega] = useState(false);
-  const VIBRATION = 13;
+  const VIBRATION = 7;
 
   const TypeEntrga = (value) => {
     setEntrega(value);
     Vibration.vibrate(VIBRATION);
-    //console.warn(entrega)
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpanded(!expanded);
   }
 
   const tax = total * 0.15;
   const SubTotal = total;
   const Delivery = entrega ? 230 : 0;
   const Total = tax + SubTotal + Delivery;
+
+  const handleSwipeDown = () => {
+    Keyboard.dismiss();
+  };
+
+  const CaptureCode = (text) => {
+    setInputValue(text);
+    console.log('Valor del input:', text);
+  }
+
+  const DescuentoCode = async () => {
+    const db = getFirestore(app);
+    const promoCodeCollection = collection(db, 'PromoCode');
+
+    try {
+      const querySnapshot = await getDocs(promoCodeCollection);
+
+      if (querySnapshot.empty) {
+        console.log('No hay documentos en la colección PromoCode.');
+      } else {
+        const matchingDocs = querySnapshot.docs.filter(doc => doc.id === inputValue);
+
+        if (matchingDocs.length > 0) {
+          const discountValue = matchingDocs[0].data().discount;
+          console.log('Descuento encontrado:', discountValue);
+          setDiscount(discountValue);
+        } else {
+          console.log('No se encontraron documentos con el id proporcionado.');
+        }
+      }
+    } catch (error) {
+      console.error('Error al buscar en la colección PromoCode:', error);
+    }
+  };
 
   return (
     <View style={CartStyle.CartScreen}>
@@ -155,10 +197,15 @@ const Cart = () => {
         <TextInput
           style={{ paddingLeft: 15 }}
           placeholder='Codigo Promocional'
-          keyboardType='numeric' />
+          keyboardType='default'
+          autoCapitalize='characters'
+          maxLength={8}
+          onChangeText={CaptureCode}
+          value={inputValue}
+        />
 
-        <TouchableOpacity style={CartStyle.PromoCodeBtn}>
-          <Text style={{ color: '#fff', fontFamily: 'Poppins', fontSize: 11 }}>Canjear</Text>
+        <TouchableOpacity onPress={DescuentoCode} style={CartStyle.PromoCodeBtn}>
+          <Text style={{ color: '#fff', fontFamily: 'Poppins', fontSize: 11, width: '100%' }}>Canjear</Text>
         </TouchableOpacity>
       </View>
 
@@ -185,31 +232,38 @@ const Cart = () => {
 
         <View>
           <View style={CartStyle.TaxesContainer}>
-            <Text style={{ fontFamily: 'Poppins' }}>ISV</Text>
-            <Text style={{ fontFamily: 'Poppins' }}>L. {(tax).toFixed(0)}</Text>
+            <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>ISV</Text>
+            <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>L. {(tax).toFixed(0)}</Text>
           </View>
 
           <View style={CartStyle.TaxesContainer}>
-            <Text style={{ fontFamily: 'Poppins' }}>SubTotal</Text>
-            <Text style={{ fontFamily: 'Poppins' }}>L. {(SubTotal).toFixed(0)}</Text>
+            <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>SubTotal</Text>
+            <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>L. {(SubTotal).toFixed(0)}</Text>
           </View>
 
-          {entrega === true ? (
+          {expanded && entrega === true && (
             <View style={CartStyle.TaxesContainer}>
-              <Text style={{ fontFamily: 'Poppins' }}>Entrega</Text>
-              <Text style={{ fontFamily: 'Poppins' }}>{Delivery}</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>Entrega</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>{Delivery}</Text>
+            </View>
+          )}
+
+          {discount === true ? (
+            <View style={CartStyle.TaxesContainer}>
+              <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>Descuento Especial</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: SizeText }}>L. {discount}</Text>
             </View>
           ) : ''}
+
         </View>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <TouchableOpacity style={CartStyle.BuyBtn}>
-            <Image source={require('../../../assets/bag.png')} style={{ width: 29, height: 29, }} />
             <Text style={{ color: '#fff' }}>Hacer Pedido</Text>
           </TouchableOpacity>
 
           <View style={CartStyle.PriceBuy}>
-            <Text style={{ fontFamily: 'Montserrat', fontSize: 11 }}>L. {(Total).toFixed(2)}</Text>
+            <Text style={{ fontFamily: 'Montserrat', fontSize: 13 }}>L. {(Total).toFixed(2)}</Text>
           </View>
         </View>
 
