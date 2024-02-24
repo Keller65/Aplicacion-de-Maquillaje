@@ -9,8 +9,6 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileStyle from '../styles/ProfileCSS';
 
-// El carrito Carga los productos del local storage
-
 export default function Profile() {
   useFonts({
     PoppinsLigth: require('../../../assets/fonts/PoppinsRegular.ttf'),
