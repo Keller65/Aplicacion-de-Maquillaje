@@ -12,6 +12,8 @@ import app from '../../DB/firebaseConfig';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useFonts } from 'expo-font';
 
+// El carrito Carga los productos del local storage
+
 const large = Dimensions.get('window').width;
 const BtnImg = 35;
 const SizeText = 11;
