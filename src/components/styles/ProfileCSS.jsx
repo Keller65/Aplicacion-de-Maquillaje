@@ -21,8 +21,8 @@ const ProfileStyle = StyleSheet.create({
     },
 
     PhotoUser: {
-        height: 70,
-        width: 70,
+        height: 60,
+        width: 60,
         borderRadius: 100
     },
 
@@ -42,7 +42,7 @@ const ProfileStyle = StyleSheet.create({
         backgroundColor: '#dedede',
         paddingVertical: 3,
         paddingHorizontal: 15,
-        borderRadius: 20,
+        borderRadius: 10,
     },
 
     CerrarSesion: {
@@ -52,7 +52,6 @@ const ProfileStyle = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 20,
         borderRadius: 50,
-        marginTop: 80,
         flexDirection: 'row',
         gap: 10
     },
@@ -71,7 +70,6 @@ const ProfileStyle = StyleSheet.create({
 
     FavoritosScreen: {
         paddingHorizontal: 20,
-        overflow: 'scroll'
     },
 
     FavoritoImagen: {

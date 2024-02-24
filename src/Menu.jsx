@@ -29,7 +29,7 @@ const Menu = () => {
                     },
                     borderWidth: 0,
                     borderColor: 'transparent',
-                    margin: 10,
+                    //margin: 10,
                     borderRadius: 50,
                 },
             }}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Button, Image, FlatList, TouchableHighlight } from 'react-native';
+import { View, Text, Button, Image, FlatList, TouchableHighlight, ScrollView } from 'react-native';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font'
@@ -8,6 +8,8 @@ import Heart from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileStyle from '../styles/ProfileCSS';
+
+// El carrito Carga los productos del local storage
 
 export default function Profile() {
   useFonts({
@@ -19,7 +21,7 @@ export default function Profile() {
   const FavRef = useRef(null);
 
   const snapPoints = ['40%'];
-  const FavsPoinst = ['85%', '100%'];
+  const FavsPoinst = ['75%', '85%'];
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [favorites, setFavorites] = useState([]);
@@ -147,7 +149,7 @@ export default function Profile() {
           snapPoints={snapPoints}
           onChange={(index) => handleModalChange(index)}
         >
-          <View style={{ paddingHorizontal: 20 }}>
+          <View style={{ paddingHorizontal: 20, height: '100%', position: 'relative', alignItems: 'center' }}>
             <View style={ProfileStyle.ConatinerUp}>
               <Image style={ProfileStyle.PhotoUser} source={{ uri: photoUri }} />
 
@@ -162,7 +164,7 @@ export default function Profile() {
               </View>
 
             </View>
-            <TouchableHighlight>
+            <TouchableHighlight style={{ position: 'absolute', bottom: 0, width: '100%', marginBottom: 5 }}>
               <View style={ProfileStyle.CerrarSesion}>
                 <Icon name='logout' color='#fff' size={20} />
                 <Text style={{ color: '#fff', fontSize: 15 }}>cerrar sesion</Text>
@@ -176,29 +178,31 @@ export default function Profile() {
           index={0}
           snapPoints={FavsPoinst}
           onChange={(index) => handleModalFavs(index)}
-          style={ProfileStyle.FavoritosScreen}
         >
-          <Text style={{ fontFamily: 'PoppinsLigth', fontSize: 12 }}>{favorites.length} Productos Agregados</Text>
+          <View>
+            <Text style={{ fontFamily: 'PoppinsLigth', fontSize: 12 }}>{favorites.length} Productos Agregados</Text>
 
-          <FlatList
-            data={favorites}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={ProfileStyle.CardFavorito}>
-                {item.imagenProduct && <Image style={ProfileStyle.FavoritoImagen} source={{ uri: item.imagenProduct }} />}
+            <FlatList
+              data={favorites}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={ProfileStyle.CardFavorito}>
+                  {item.imagenProduct && <Image style={ProfileStyle.FavoritoImagen} source={{ uri: item.imagenProduct }} />}
 
-                <View style={ProfileStyle.ConatinerPriceFavoritos}>
-                  <Text style={{ fontFamily: 'Montserrat', fontSize: 12 }}>{item.producto}</Text>
-                  <Text style={{ fontFamily: 'Montserrat', fontSize: 12 }}>{item.precio}</Text>
+                  <View style={ProfileStyle.ConatinerPriceFavoritos}>
+                    <Text style={{ fontFamily: 'Montserrat', fontSize: 12 }}>{item.producto}</Text>
+                    <Text style={{ fontFamily: 'Montserrat', fontSize: 12 }}>{item.precio}</Text>
+                  </View>
                 </View>
-              </View>
-            )}
+              )}
 
-            horizontal={false}
-            numColumns={2}
-            contentContainerStyle={{ alignItems: 'center' }}
-          />
-
+              horizontal={false}
+              numColumns={2}
+              contentContainerStyle={{ alignItems: 'center' }}
+              scrollEnabled={true}
+              nestedScrollEnabled={true}
+            />
+          </View >
         </BottomSheetModal>
 
       </BottomSheetModalProvider>
