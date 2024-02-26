@@ -165,7 +165,7 @@ const Cart = () => {
     const promoCodeCollection = collection(db, 'PromoCode');
 
     if (inputValue.trim() === '') {
-      Alert.alert('Advertencia', 'Por favor, ingrese un valor en el input.');
+      Alert.alert('Codigo Vacio');
     } else {
       if (inputValue.length === 8) {
         try {
@@ -179,20 +179,19 @@ const Cart = () => {
 
             if (matchingDocs.length > 0) {
               const discountValue = matchingDocs[0].data().discount;
-              Alert.alert('Descuento encontrado:', discountValue);
-              setDiscount(discountValue);
+              Alert.alert('Descuento de Compra: ', discountValue);
+              setDiscount(discountValue ? discountValue : 0);
               Vibration.vibrate(VIBRATION);
             } else {
-              Alert.alert('No se encontraron documentos con el id proporcionado.');
+              Alert.alert('El Codigo ya ha sido usado');
               Vibration.vibrate(VIBRATION_ERROR);
-              setError(true);
             }
           }
         } catch (error) {
-          console.error('Error al buscar en la colección PromoCode:', error);
+          console.error('Error al buscar el Codigo:', error);
         }
       } else {
-        Alert.alert('Formato incorrecto del codigo');
+        Alert.alert('Los Codigos deben de tener 8 dijitos');
         setError(!error);
         Vibration.vibrate(VIBRATION_FORMAT);
       }
