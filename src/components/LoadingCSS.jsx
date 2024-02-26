@@ -8,6 +8,7 @@ const Style = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#fff'
     },
 
 });

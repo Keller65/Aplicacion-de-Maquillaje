@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration, LayoutAnimation, UIManager, Keyboard, Alert } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import CartStyle from '../styles/CartCSS';
-import Icon from 'react-native-vector-icons/Feather';
+import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration, LayoutAnimation, UIManager, Alert } from 'react-native';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
-import Trash from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Trash from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Feather';
 import loaderCart from '../../../assets/cart.png';
 import Store from '../../../assets/store.png';
+import CartStyle from '../styles/CartCSS';
 import app from '../../DB/firebaseConfig';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useFonts } from 'expo-font';
 
 const large = Dimensions.get('window').width;
@@ -150,10 +150,6 @@ const Cart = () => {
   const Delivery = entrega ? 230 : 0;
   const Total = tax + SubTotal + Delivery;
 
-  const handleSwipeDown = () => {
-    Keyboard.dismiss();
-  };
-
   const CaptureCode = (text) => {
     setInputValue(text);
     console.log('Valor del input:', text);
@@ -188,7 +184,7 @@ const Cart = () => {
             }
           }
         } catch (error) {
-          console.error('Error al buscar el Codigo:', error);
+          Alert.alert('Error al buscar el Codigo:', error);
         }
       } else {
         Alert.alert('Los Codigos deben de tener 8 dijitos');
@@ -241,7 +237,7 @@ const Cart = () => {
         <TouchableWithoutFeedback onPress={() => TypeEntrga(false)}>
           <View style={entrega === false ? CartStyle.EntrgaActive : CartStyle.EntregaButton}>
             <Image source={Store} style={{ width: BtnImg, height: BtnImg, }} />
-            <Text style={{ fontFamily: 'Poppins', marginBottom: -15, width: '100%', textAlign: 'center' }}>En Tienda</Text>
+            <Text style={{ fontFamily: 'Poppins', marginBottom: -15, width: '100%', textAlign: 'center' }}>Store</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>

@@ -7,13 +7,13 @@ import Loading from './src/components/Loading';
 import Swiper from './src/components/Swiper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const OAuthtoken = ' ';
+const OAuthtoken = '';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <NavigationContainer>
-        {OAuthtoken ? <Menu /> : <Swiper />}
+        {OAuthtoken ? <Menu /> : <Login />}
         <StatusBar style="auto" />
       </NavigationContainer>
     </GestureHandlerRootView>
