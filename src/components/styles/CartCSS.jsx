@@ -121,7 +121,7 @@ const CartStyle = StyleSheet.create({
         backgroundColor: '#000',
         flexDirection: 'row',
         width: '70%',
-        paddingVertical: 10 ,
+        paddingVertical: 10,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,
@@ -153,7 +153,7 @@ const CartStyle = StyleSheet.create({
     PromoCode: {
         width: '100%',
         backgroundColor: 'transparent',
-        padding: 5,
+        padding: 2.5,
         borderRadius: 12,
         flexDirection: 'row',
         alignItems: 'center',
@@ -164,11 +164,38 @@ const CartStyle = StyleSheet.create({
         marginTop: 10
     },
 
+    PromoCodeError: {
+        width: '100%',
+        backgroundColor: '#ffdedb',
+        padding: 2.5,
+        borderRadius: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 84, 84, 0.7)',
+        height: 50,
+        marginTop: 10,
+        color: '#ff6e6e',
+    },
+
+    ErrorText: {
+        paddingLeft: 15,
+        color: '#ff6e6e',
+        width: '70%',
+    },
+
+    InputText: {
+        paddingLeft: 15,
+        color: '#000',
+        width: '70%',
+    },
+
     PromoCodeBtn: {
         height: '100%',
+        width: 'auto',
         backgroundColor: '#000',
         paddingHorizontal: 20,
-        alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
     },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration, LayoutAnimation, UIManager, Keyboard } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Image, FlatList, TouchableOpacity, Dimensions, TextInput, Vibration, LayoutAnimation, UIManager, Keyboard, Alert } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import CartStyle from '../styles/CartCSS';
 import Icon from 'react-native-vector-icons/Feather';
@@ -24,11 +24,13 @@ const Cart = () => {
   const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [discount, setDiscount] = useState(0);
+  const [error, setError] = useState(false);
 
   useFonts({
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
     Montserrat2: require('../../../assets/fonts/MontserratAlternates-Medium.ttf'),
     Poppins: require('../../../assets/fonts/Poppins-Light.ttf'),
+    PoppinsMedium: require('../../../assets/fonts/PoppinsRegular.ttf')
   });
 
   useEffect(() => {
@@ -133,6 +135,8 @@ const Cart = () => {
 
   const [entrega, setEntrega] = useState(false);
   const VIBRATION = 7;
+  const VIBRATION_ERROR = 80;
+  const VIBRATION_FORMAT = [10, 50, 120];
 
   const TypeEntrga = (value) => {
     setEntrega(value);
@@ -156,27 +160,42 @@ const Cart = () => {
   }
 
   const DescuentoCode = async () => {
+    Vibration.vibrate(VIBRATION);
     const db = getFirestore(app);
     const promoCodeCollection = collection(db, 'PromoCode');
 
-    try {
-      const querySnapshot = await getDocs(promoCodeCollection);
+    if (inputValue.trim() === '') {
+      Alert.alert('Advertencia', 'Por favor, ingrese un valor en el input.');
+    } else {
+      if (inputValue.length === 8) {
+        try {
+          const querySnapshot = await getDocs(promoCodeCollection);
 
-      if (querySnapshot.empty) {
-        console.log('No hay documentos en la colección PromoCode.');
-      } else {
-        const matchingDocs = querySnapshot.docs.filter(doc => doc.id === inputValue);
+          if (querySnapshot.empty) {
+            console.log('No hay documentos en la colección PromoCode.');
+            Vibration.vibrate(VIBRATION);
+          } else {
+            const matchingDocs = querySnapshot.docs.filter(doc => doc.id === inputValue);
 
-        if (matchingDocs.length > 0) {
-          const discountValue = matchingDocs[0].data().discount;
-          console.log('Descuento encontrado:', discountValue);
-          setDiscount(discountValue);
-        } else {
-          console.log('No se encontraron documentos con el id proporcionado.');
+            if (matchingDocs.length > 0) {
+              const discountValue = matchingDocs[0].data().discount;
+              Alert.alert('Descuento encontrado:', discountValue);
+              setDiscount(discountValue);
+              Vibration.vibrate(VIBRATION);
+            } else {
+              Alert.alert('No se encontraron documentos con el id proporcionado.');
+              Vibration.vibrate(VIBRATION_ERROR);
+              setError(true);
+            }
+          }
+        } catch (error) {
+          console.error('Error al buscar en la colección PromoCode:', error);
         }
+      } else {
+        Alert.alert('Formato incorrecto del codigo');
+        setError(!error);
+        Vibration.vibrate(VIBRATION_FORMAT);
       }
-    } catch (error) {
-      console.error('Error al buscar en la colección PromoCode:', error);
     }
   };
 
@@ -195,7 +214,7 @@ const Cart = () => {
 
       <View style={CartStyle.PromoCode}>
         <TextInput
-          style={{ paddingLeft: 15 }}
+          style={[CartStyle.InputText, { fontFamily: 'PoppinsMedium' }]}
           placeholder='Codigo Promocional'
           keyboardType='default'
           autoCapitalize='characters'
@@ -205,7 +224,7 @@ const Cart = () => {
         />
 
         <TouchableOpacity onPress={DescuentoCode} style={CartStyle.PromoCodeBtn}>
-          <Text style={{ color: '#fff', fontFamily: 'Poppins', fontSize: 11, width: '100%' }}>Canjear</Text>
+          <Text style={{ color: '#fff', fontFamily: 'Poppins', fontSize: 12 }}>Canjear</Text>
         </TouchableOpacity>
       </View>
 
