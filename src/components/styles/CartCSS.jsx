@@ -161,28 +161,8 @@ const CartStyle = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#f2f2f2',
         height: 50,
-        marginTop: 10
-    },
-
-    PromoCodeError: {
-        width: '100%',
-        backgroundColor: '#ffdedb',
-        padding: 2.5,
-        borderRadius: 12,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderWidth: 1,
-        borderColor: 'rgba(255, 84, 84, 0.7)',
-        height: 50,
         marginTop: 10,
-        color: '#ff6e6e',
-    },
-
-    ErrorText: {
-        paddingLeft: 15,
-        color: '#ff6e6e',
-        width: '70%',
+        overflow: 'hidden'
     },
 
     InputText: {
