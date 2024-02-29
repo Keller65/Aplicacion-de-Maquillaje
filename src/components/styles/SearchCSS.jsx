@@ -12,24 +12,20 @@ const SearchStyle = StyleSheet.create({
     },
 
     InputSearch: {
-        paddingLeft: 15
+        paddingLeft: 8,
+        height: '100%',
     },
 
     ContainerSearch: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        backgroundColor: 'transparent',
         height: 45,
         paddingLeft: 10,
-        borderRadius: 8,
+        borderRadius: 12,
         width: '85%',
-    },
-
-    filter: {
-        borderTopStartRadius: 12,
-        borderBottomStartRadius: 12,
-        alignItems: 'center',
-        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.09)'
     },
 
     filtroSelected: {
@@ -95,11 +91,52 @@ const SearchStyle = StyleSheet.create({
     FilterButton: {
         height: 45,
         width: 45,
-        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        backgroundColor: 'rgb(0, 0, 0)',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10
     },
+
+    FiltersContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        gap: 10,
+        marginBottom: 8
+    },
+
+    FilterMarcas: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.09)',
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    FilterTrue: {
+        backgroundColor: '#000',
+        borderWidth: 1,
+        borderColor: '#000',
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    TextMarca: {
+        color: 'rgba(0, 0, 0, 0.5)',
+        fontFamily: 'Poppins',
+        fontSize: 11,
+    },
+
+    TextTrue: {
+        color: '#fff',
+        fontFamily: 'Poppins',
+        fontSize: 11,
+    }
 })
 
 export default SearchStyle;

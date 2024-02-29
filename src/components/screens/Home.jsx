@@ -100,8 +100,6 @@ const Home = () => {
         <Image source={{ uri: photoUri }} style={{ width: 50, height: 50, borderRadius: 50 }} />
       </View>
 
-      <Text>{country}</Text>
-
       <Image style={{ width: '100%', height: 130, borderRadius: 20 }} source={require('../../../assets/post.png')} />
 
       <View>

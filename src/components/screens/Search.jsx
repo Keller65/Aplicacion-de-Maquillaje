@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProductView from './modals/ProductView';
 import app from '../../DB/firebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,6 +13,7 @@ import SearchStyle from '../styles/SearchCSS';
 const Search = () => {
   const [fontsLoaded] = useFonts({
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
+    Poppins: require('../../../assets/fonts/PoppinsMedium.ttf'),
   });
 
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -23,32 +22,7 @@ const Search = () => {
   const [productos, setProductos] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-
-  const toggleFavoriteProduct = (productId) => {
-    setSelectedProducts((prevSelected) => {
-      if (prevSelected.includes(productId)) {
-        saveToFavorites(productId, true);
-        return prevSelected.filter((id) => id !== productId);
-      } else {
-        saveToFavorites(productId, false);
-        return [...prevSelected, productId];
-      }
-    });
-  };
-
-  const openProductView = (product) => {
-    setShowProductView(true);
-    setSelectedProductId(product.id);
-  };
-
-  const closeProductView = () => {
-    setShowProductView(false);
-    setSelectedProductId('');
-  };
-
-  const handleSearch = (value) => {
-    setSearchValue(value);
-  };
+  const [activeFilter, setActiveFilter] = useState(null);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -72,31 +46,55 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const productosFiltrados = searchValue
-        ? productos.filter((producto) => {
-          const productoLowerCase = (producto.producto || '').toLowerCase();
-          const marcaLowerCase = (producto.marca || '').toLowerCase();
-          const tipoLowerCase = (producto.tipo || '').toLowerCase();
-          const precioLowerCase = String(producto.precio - producto.descuento).toLowerCase();
+    if (searchValue.trim() !== '') {
+      const productosFiltrados = productos.filter((producto) => {
+        const productoLowerCase = (producto.producto || '').toLowerCase();
+        const marcaLowerCase = (producto.marca || '').toLowerCase();
+        const tipoLowerCase = (producto.tipo || '').toLowerCase();
+        const precioLowerCase = String(producto.precio - (producto.descuento || 0)).toLowerCase();
 
-          return (
-            productoLowerCase.includes(searchValue.toLowerCase()) ||
-            marcaLowerCase.includes(searchValue.toLowerCase()) ||
-            tipoLowerCase.includes(searchValue.toLowerCase()) ||
-            precioLowerCase.includes(searchValue.toLowerCase())
-          );
-        })
-        : productos;
+        return (
+          productoLowerCase.includes(searchValue.toLowerCase()) ||
+          marcaLowerCase.includes(searchValue.toLowerCase()) ||
+          tipoLowerCase.includes(searchValue.toLowerCase()) ||
+          precioLowerCase.includes(searchValue.toLowerCase())
+        );
+      });
 
       setFilteredProductos(productosFiltrados);
-    }, 550);
-
-    return () => clearTimeout(timeoutId);
+    } else {
+      setFilteredProductos([]);
+    }
   }, [searchValue, productos]);
 
   const DelteSearch = () => {
     setSearchValue('');
+  };
+
+  const toggleFavoriteProduct = (productId) => {
+    setSelectedProducts((prevSelected) => {
+      if (prevSelected.includes(productId)) {
+        saveToFavorites(productId, true);
+        return prevSelected.filter((id) => id !== productId);
+      } else {
+        saveToFavorites(productId, false);
+        return [...prevSelected, productId];
+      }
+    });
+  };
+
+  const openProductView = (product) => {
+    setShowProductView(true);
+    setSelectedProductId(product.id);
+  };
+
+  const closeProductView = () => {
+    setShowProductView(false);
+    setSelectedProductId('');
+  };
+
+  const handleSearch = (text) => {
+    setSearchValue(text);
   };
 
   const saveToFavorites = async (id, isAdd) => {
@@ -141,38 +139,63 @@ const Search = () => {
     prepare();
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  const ChangeFilter = (filterName) => {
+    setActiveFilter(filterName);
+  };
 
   return (
     <View style={SearchStyle.SearchScreen}>
-
       <View style={{ flexDirection: 'row', gap: 10, width: '100%', marginVertical: 10 }}>
         <View style={SearchStyle.ContainerSearch}>
-          <TouchableOpacity style={SearchStyle.filter}>
-            <Feather name='search' size={20} color='rgba(0, 0, 0, 0.5)' />
-          </TouchableOpacity>
-
           <TextInput
             onChange={(e) => handleSearch(e.nativeEvent.text)}
             value={searchValue}
-            style={[SearchStyle.InputSearch, { fontFamily: 'Montserrat', width: '85%' }]}
+            style={[SearchStyle.InputSearch, { fontFamily: 'Poppins', width: '85%' }]}
             placeholder='Buscar Producto'
             keyboardType='default'
           />
 
-          {searchValue ? <AntDesign onPress={DelteSearch} style={SearchStyle.closeIcon} name='close' size={18} color='rgba(0, 0, 0, 0.5)' /> : ''}
+          {searchValue ? <AntDesign onPress={DelteSearch} style={SearchStyle.closeIcon} name='close' size={15} color='rgba(0, 0, 0, 0.5)' /> : ''}
         </View>
 
         <TouchableOpacity style={SearchStyle.FilterButton}>
-          <Material name='filter' size={20} color='rgba(0, 0, 0, 0.5)' />
+          <Image style={{ height: 25, width: 25 }} source={require('../../../assets/filter.png')} />
         </TouchableOpacity>
+      </View>
+
+      <View>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <View style={SearchStyle.FiltersContainer}>
+            <TouchableOpacity onPress={() => ChangeFilter('Todo')} style={activeFilter === 'Todo' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
+              <Text style={activeFilter === 'Todo' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Todo</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => ChangeFilter('Chanel')} style={activeFilter === 'Chanel' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
+              <Text style={activeFilter === 'Chanel' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Chanel</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => ChangeFilter('Dior')} style={activeFilter === 'Dior' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
+              <Text style={activeFilter === 'Dior' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Dior</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => ChangeFilter('Sephora')} style={activeFilter === 'Sephora' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
+              <Text style={activeFilter === 'Sephora' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Sephora</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => ChangeFilter('Kiko Milano')} style={activeFilter === 'Kiko Milano' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
+              <Text style={activeFilter === 'Kiko Milano' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Kiko Milano</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => ChangeFilter('Saint Laurent')} style={activeFilter === 'Saint Laurent' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
+              <Text style={activeFilter === 'Saint Laurent' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Saint Laurent</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
 
       {searchValue !== '' ? (
         filteredProductos.length > 0 ? (
-          <View style={{ width: '100%', alignItems: 'center', paddingBottom: 25 }}>
+          <View style={{ width: '100%', alignItems: 'center', paddingBottom: 65 }}>
             <FlatList
               data={filteredProductos}
               keyExtractor={(item) => item.id}
@@ -185,11 +208,11 @@ const Search = () => {
 
                     {item.imagenProduct && <Image style={SearchStyle.ImagenProduct} source={{ uri: item.imagenProduct }} />}
 
-                    <Text style={{ fontFamily: 'Montserrat' }}>{item.producto}</Text>
+                    <Text style={{ fontFamily: 'Poppins' }}>{item.producto}</Text>
 
                     <View style={SearchStyle.ContainerPrice}>
-                      <Text style={{ fontFamily: 'Montserrat' }}>{item.marca}</Text>
-                      <Text style={{ fontFamily: 'Montserrat' }}>L. {(item.precio - item.descuento).toFixed(0)}</Text>
+                      <Text style={{ fontFamily: 'Poppins' }}>{item.marca}</Text>
+                      <Text style={{ fontFamily: 'Poppins' }}>L. {(item.precio - (item.descuento || 0)).toFixed(0)}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -201,14 +224,13 @@ const Search = () => {
           </View>
         ) : (
           <View style={SearchStyle.NoResultsContainer}>
-            <Material name='file-find' size={25} color='#bababa' />
-            <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Montserrat', color: '#bababa' }]}>Producto no encontrado</Text>
+            <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Poppins', color: '#bababa' }]}>Producto no encontrado</Text>
           </View>
         )
       ) : (
         <View style={SearchStyle.NoResultsContainer}>
           <Icon name='sparkles-sharp' size={17} />
-          <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Montserrat' }]}>Buscar productos</Text>
+          <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Poppins' }]}>Buscar productos</Text>
         </View>
       )}
 

@@ -58,7 +58,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
       console.error('Error al agregar al carrito:', error);
     }
   }
-  
+
   return (
     <Animated.View style={[Style.Screen, { opacity: fadeAnim }]}>
       {
