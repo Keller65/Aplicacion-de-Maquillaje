@@ -1,5 +1,8 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import Constants from "expo-constants";
+
+const HEIGHT_POST = Dimensions.get('screen').height;
+const WIDTH_POST = Dimensions.get('screen').width;
 
 const SearchStyle = StyleSheet.create({
     SearchScreen: {
@@ -45,7 +48,7 @@ const SearchStyle = StyleSheet.create({
     //Card UI products
 
     CardProduct: {
-        margin: 5,
+        marginHorizontal: 5,
         width: 180,
         height: 'auto',
         overflow: 'hidden',
@@ -80,12 +83,14 @@ const SearchStyle = StyleSheet.create({
     //Pantalla de Busqueda no encontrada
 
     NoResultsContainer: {
-        height: '90%',
-        width: '100%',
+        height: HEIGHT_POST,
+        width: WIDTH_POST,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        gap: 10
+        gap: 10,
+        position: 'absolute',
+        zIndex: -999
     },
 
     FilterButton: {
@@ -110,7 +115,7 @@ const SearchStyle = StyleSheet.create({
         borderColor: 'rgba(0, 0, 0, 0.09)',
         paddingVertical: 5,
         paddingHorizontal: 15,
-        borderRadius: 10,
+        borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -121,7 +126,7 @@ const SearchStyle = StyleSheet.create({
         borderColor: '#000',
         paddingVertical: 5,
         paddingHorizontal: 15,
-        borderRadius: 10,
+        borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -136,7 +141,22 @@ const SearchStyle = StyleSheet.create({
         color: '#fff',
         fontFamily: 'Poppins',
         fontSize: 11,
-    }
+    },
+
+    Post: {
+        height: 'auto',
+        width: '100%',
+        overflow: 'hidden',
+        flexDirection: 'row',
+        gap: 10,
+    },
+
+    PostImage: {
+        width: 280,
+        height: 'auto',
+        aspectRatio: '1.85/1',
+        borderRadius: 20,
+    },
 })
 
 export default SearchStyle;

@@ -193,35 +193,45 @@ const Search = () => {
         </ScrollView>
       </View>
 
+      {searchValue === '' ? (
+        <View style={{ paddingBottom: 10 }}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={SearchStyle.Post}>
+              <Image source={require('../../../assets/PostLogo.png')} style={SearchStyle.PostImage} />
+              <Image source={require('../../../assets/edit.png')} style={SearchStyle.PostImage} />
+            </View>
+          </ScrollView>
+        </View>
+      ) : ''}
+
       {searchValue !== '' ? (
         filteredProductos.length > 0 ? (
-          <View style={{ width: '100%', alignItems: 'center', paddingBottom: 65 }}>
-            <FlatList
-              data={filteredProductos}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => openProductView(item)}>
-                  <View style={SearchStyle.CardProduct}>
-                    <TouchableOpacity style={SearchStyle.Icon} onPress={() => toggleFavoriteProduct(item.id)}>
-                      <Icon name={selectedProducts.includes(item.id) ? 'heart-outline' : 'heart'} size={20} />
-                    </TouchableOpacity>
+          <FlatList
+            data={filteredProductos}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => openProductView(item)}>
+                <View style={SearchStyle.CardProduct}>
+                  <TouchableOpacity style={SearchStyle.Icon} onPress={() => toggleFavoriteProduct(item.id)}>
+                    <Icon name={selectedProducts.includes(item.id) ? 'heart-outline' : 'heart'} size={20} />
+                  </TouchableOpacity>
 
-                    {item.imagenProduct && <Image style={SearchStyle.ImagenProduct} source={{ uri: item.imagenProduct }} />}
+                  {item.imagenProduct && <Image style={SearchStyle.ImagenProduct} source={{ uri: item.imagenProduct }} />}
 
-                    <Text style={{ fontFamily: 'Poppins' }}>{item.producto}</Text>
+                  <Text style={{ fontFamily: 'Poppins' }}>{item.producto}</Text>
 
-                    <View style={SearchStyle.ContainerPrice}>
-                      <Text style={{ fontFamily: 'Poppins' }}>{item.marca}</Text>
-                      <Text style={{ fontFamily: 'Poppins' }}>L. {(item.precio - (item.descuento || 0)).toFixed(0)}</Text>
-                    </View>
+                  <View style={SearchStyle.ContainerPrice}>
+                    <Text style={{ fontFamily: 'Poppins' }}>{item.marca}</Text>
+                    <Text style={{ fontFamily: 'Poppins' }}>L. {(item.precio - (item.descuento || 0)).toFixed(0)}</Text>
                   </View>
-                </TouchableOpacity>
-              )}
-              horizontal={false}
-              numColumns={2}
-              contentContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0, gap: 10, paddingBottom: 30 }}
-            />
-          </View>
+                </View>
+              </TouchableOpacity>
+            )}
+            horizontal={false}
+            numColumns={2}
+            contentContainerStyle={{ width: '100%' }}
+            initialNumToRender={10}
+          />
         ) : (
           <View style={SearchStyle.NoResultsContainer}>
             <Text style={[SearchStyle.NoResultsText, { fontFamily: 'Poppins', color: '#bababa' }]}>Producto no encontrado</Text>
