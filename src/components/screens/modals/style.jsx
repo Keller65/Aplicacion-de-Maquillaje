@@ -33,13 +33,15 @@ const Style = StyleSheet.create({
     ConatinerProductoInfo: {
         width: '100%',
         flexDirection: 'row',
-        gap: 15,
+        gap: 8,
         position: 'relative'
     },
 
     ContainerTonos: {
-        paddingTop: 20,
-        gap: 10
+        paddingTop: 10,
+        gap: 10,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
 
     ContainerShopping: {
@@ -52,12 +54,12 @@ const Style = StyleSheet.create({
     ButtonShopping: {
         width: '100%',
         backgroundColor: '#000',
-        paddingVertical: 20,
+        paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
         gap: 10,
-        borderRadius: 50
+        borderRadius: 20
     },
 
     TextTonos: {
@@ -65,15 +67,15 @@ const Style = StyleSheet.create({
         width: 72,
         paddingVertical: 5,
         paddingHorizontal: 18,
-        borderRadius: 50,
+        borderRadius: 10,
         color: 'rgba(0,0,0,0.3)',
         fontSize: 11
     },
 
     Badge: {
-        backgroundColor: 'rgba(0,0,0,0.04)',
+        backgroundColor: '#FFF5E7',
         width: 85, // 85
-        height: 45,
+        height: 40,
         padding: 10,
         borderRadius: 50,
         flexDirection: 'row',
@@ -81,6 +83,19 @@ const Style = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
+        position: 'absolute',
+        right: 0,
+    },
+
+    Close: {
+        height: 40,
+        width: 40,
+        backgroundColor: 'rgba(0,0,0,0.04)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 12,
+        position: 'absolute',
+        left: 0,
     },
 })
 

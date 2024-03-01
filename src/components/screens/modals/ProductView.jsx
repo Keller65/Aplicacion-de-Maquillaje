@@ -2,14 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Text, TouchableOpacity, Animated, Easing, Image, View, ScrollView } from 'react-native';
 import Style from './style';
 import { useFonts } from 'expo-font';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconSvg from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProductView = ({ productDetails, closeProductView }) => {
   const [fontloaded] = useFonts({
-    Regular: require('../../../../assets/fonts/MontserratAlternates-Regular.ttf')
+    Regular: require('../../../../assets/fonts/MontserratAlternates-Regular.ttf'),
+    Medium: require('../../../../assets/fonts/PoppinsRegular.ttf')
   });
 
   const [fadeAnim] = useState(new Animated.Value(0));
@@ -61,15 +62,23 @@ const ProductView = ({ productDetails, closeProductView }) => {
 
   return (
     <Animated.View style={[Style.Screen, { opacity: fadeAnim }]}>
-      {
-        productDetails.descuento ?
-          <View style={Style.Badge}>
-            <IconSvg name='ticket-percent' size={20} color='#000' />
-            <Text style={{ fontFamily: 'Regular', fontSize: 11 }}> -{(productDetails?.descuento / productDetails.precio * 100).toFixed(0)}%</Text>
-          </View>
-          :
-          null
-      }
+      <View style={{ width: '100%', position: 'relative', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+        <TouchableOpacity onPress={handleModalClose} style={Style.Close}>
+          <Icon name='chevron-left' color='#000' size={33} />
+        </TouchableOpacity>
+
+        <Text style={{ textAlign: 'center', fontFamily: 'Medium' }}>{productDetails.marca}</Text>
+
+        {
+          productDetails.descuento ?
+            <View style={Style.Badge}>
+              <IconSvg name='ticket-confirmation' size={20} color='#D4A373' />
+              <Text style={{ fontFamily: 'Regular', fontSize: 11, color: '#D4A373' }}> -{(productDetails?.descuento / productDetails.precio * 100).toFixed(0)}%</Text>
+            </View>
+            :
+            null
+        }
+      </View>
 
       <View>
         <ScrollView horizontal={true} style={Style.ContainerImageView} showsHorizontalScrollIndicator={false}>
@@ -94,13 +103,9 @@ const ProductView = ({ productDetails, closeProductView }) => {
         </Text>
       </View>
 
-      <Text style={{ fontFamily: 'Regular', fontSize: 16, marginTop: 30, textAlign: 'justify' }}>
+      <Text style={{ fontFamily: 'Regular', fontSize: 16, marginTop: 20, textAlign: 'justify', color: '#747474'  }}>
         {productDetails.descripcion}
       </Text>
-
-      <TouchableOpacity onPress={handleModalClose} style={{ position: 'absolute', top: 20, right: 15 }}>
-        <Icon name='close' color='rgba(0,0,0,0.5)' size={25} />
-      </TouchableOpacity>
 
       <View style={Style.ContainerTonos}>
         <Text style={[Style.TextTonos, { fontFamily: 'Regular' }]}>tonos</Text>

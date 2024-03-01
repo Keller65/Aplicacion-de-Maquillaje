@@ -100,7 +100,7 @@ const Home = () => {
         <Image source={{ uri: photoUri }} style={{ width: 50, height: 50, borderRadius: 50 }} />
       </View>
 
-      <Image style={{ width: '100%', height: 130, borderRadius: 20 }} source={require('../../../assets/post.png')} />
+      <Image style={{ width: '100%', height: 195, borderRadius: 20 }} source={require('../../../assets/PostLogo.png')} />
 
       <View>
         <ScrollView style={HomeStyle.Oferts} horizontal={true} showsHorizontalScrollIndicator={false}>

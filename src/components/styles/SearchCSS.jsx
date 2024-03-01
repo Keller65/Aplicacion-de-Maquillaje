@@ -58,7 +58,7 @@ const SearchStyle = StyleSheet.create({
         width: '100%',
         height: 200,
         backgroundColor: '#f0ece691',
-        borderRadius: 8
+        borderRadius: 20
     },
 
     ContainerPrice: {
