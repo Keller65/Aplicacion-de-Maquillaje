@@ -229,8 +229,7 @@ const Search = () => {
             )}
             horizontal={false}
             numColumns={2}
-            contentContainerStyle={{ width: '100%' }}
-            initialNumToRender={10}
+            contentContainerStyle={{ width: '100%', alignItems: 'center' }}
           />
         ) : (
           <View style={SearchStyle.NoResultsContainer}>

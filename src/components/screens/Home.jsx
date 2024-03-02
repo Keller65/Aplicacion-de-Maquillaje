@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, Image, ScrollView, Button, Animated, TouchableNativeFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFonts } from 'expo-font';
@@ -14,6 +14,8 @@ const Home = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [country, setCountry] = useState(null);
+  const [scale, setScale] = useState(true)
+  const scaleValue = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     (async () => {
@@ -92,15 +94,39 @@ const Home = () => {
     return null;
   }
 
+  const date = new Date();
+  const hours = date.getHours();
+
+  const OnScale = () => {
+    setScale(!scale);
+
+    Animated.spring(scaleValue, {
+      toValue: scale ? 1.2 : 1,
+      duration: 1200,
+      useNativeDriver: false,
+    }).start();
+  };
+  
   return (
     <View style={HomeStyle.HomeScreen}>
       <View style={HomeStyle.StatusBar}>
         <Icon name='grid' size={26} color='#000' />
-        <Text style={{ fontFamily: 'Poppins' }}>¡Bienvenido otra vez!</Text>
-        <Image source={{ uri: photoUri }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+        <Text style={{ fontFamily: 'Poppins' }}>{hours <= 12 ? 'Buenos Dias' : hours <= 18 ? 'Buenas Tardes' : 'Buenas noches'}</Text>
+        <Image source={{ uri: photoUri }} style={{ width: 45, height: 45, borderRadius: 50 }} />
       </View>
 
-      <Image style={{ width: '100%', height: 195, borderRadius: 20 }} source={require('../../../assets/PostLogo.png')} />
+      <View style={{ width: '100%', height: 195, borderRadius: 20, overflow: 'hidden' }}>
+        <TouchableNativeFeedback onPressIn={OnScale} onPressOut={OnScale}>
+          <Animated.Image
+            style={{
+              width: '100%',
+              height: '100%',
+              transform: [{ scale: scaleValue }],
+            }}
+            source={require('../../../assets/PostLogo.png')}
+          />
+        </TouchableNativeFeedback>
+      </View>
 
       <View>
         <ScrollView style={HomeStyle.Oferts} horizontal={true} showsHorizontalScrollIndicator={false}>

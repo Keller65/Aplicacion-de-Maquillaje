@@ -49,14 +49,14 @@ const SearchStyle = StyleSheet.create({
 
     CardProduct: {
         marginHorizontal: 5,
-        width: 180,
+        width: 185,
         height: 'auto',
         overflow: 'hidden',
     },
 
     ImagenProduct: {
         width: '100%',
-        height: 200,
+        height: 185,
         backgroundColor: '#f0ece691',
         borderRadius: 20
     },
