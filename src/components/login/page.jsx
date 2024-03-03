@@ -1,7 +1,8 @@
 import * as Google from 'expo-auth-session/providers/google';
 import { ResponseType } from 'expo-auth-session';
 import React from 'react';
-import { Button, View } from 'react-native';
+import { Button, View, ImageBackground, TouchableNativeFeedback, Text } from 'react-native';
+import { useFonts } from 'expo-font';
 import LoginStyle from './LoginCSS';
 
 export default function GoogleLogin() {
@@ -18,15 +19,30 @@ export default function GoogleLogin() {
     }
   }, [response]);
 
+  const [fontsLoaded] = useFonts({
+    Poppins: require('../../../assets/fonts/PoppinsRegular.ttf')
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={LoginStyle.LoginScreen}>
-      <Button
+    <ImageBackground source={require('../../../assets/BG.png')} fadeDuration={300} resizeMode="cover" style={LoginStyle.LoginScreen}>
+      {/*<Button
         disabled={!request}
         title="Login with Google"
         onPress={() => {
           promptAsync();
         }}
-      />
-    </View>
+      />*/}
+
+      <TouchableNativeFeedback>
+        <View style={LoginStyle.Next}>
+          <Text style={{ color: '#000', fontFamily: 'Poppins' }}>Continuar</Text>
+        </View>
+      </TouchableNativeFeedback>
+
+    </ImageBackground>
   );
 }

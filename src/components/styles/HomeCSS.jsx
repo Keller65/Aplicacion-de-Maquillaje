@@ -5,7 +5,7 @@ const HomeStyle = StyleSheet.create({
     HomeScreen: {
         height: '100%',
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: '#fff', //1E1E1E
         paddingTop: Constants.statusBarHeight || 0,
         paddingVertical: 20,
         paddingHorizontal: 10
@@ -28,7 +28,16 @@ const HomeStyle = StyleSheet.create({
     CardItem: {
         height: 'auto',
         width: 'auto',
-        margin: 2
+        margin: 2,
+    },
+
+    ImageCard: {
+        height: '100%',
+        width: '100%',
+        backgroundColor: '#FFFAF2',
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#FEF7ED'
     },
 
     Badge: {

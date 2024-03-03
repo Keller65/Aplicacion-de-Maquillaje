@@ -111,7 +111,7 @@ const Home = () => {
     <View style={HomeStyle.HomeScreen}>
       <View style={HomeStyle.StatusBar}>
         <Icon name='grid' size={26} color='#000' />
-        <Text style={{ fontFamily: 'Poppins' }}>{hours <= 12 ? 'Buenos Dias' : hours <= 18 ? 'Buenas Tardes' : 'Buenas noches'}</Text>
+        <Text style={{ fontFamily: 'Poppins' }}>{hours <= 12 ? 'Buenos Dias!' : hours <= 18 ? 'Buenas Tardes!' : 'Buenas Noches!'}</Text>
         <Image source={{ uri: photoUri }} style={{ width: 45, height: 45, borderRadius: 50 }} />
       </View>
 
@@ -136,7 +136,7 @@ const Home = () => {
                 <View style={HomeStyle.Badge}>
                   <Ticket name='ticket-confirmation' size={15} color='#a39367' />
                 </View>
-                <Image source={{ uri: item.imagen }} style={{ height: '100%', width: '100%', backgroundColor: '#f0ece691', borderRadius: 15 }} />
+                <Image source={{ uri: item.imagen }} style={HomeStyle.ImageCard} />
               </View>
 
               <View style={HomeStyle.Pricing}>

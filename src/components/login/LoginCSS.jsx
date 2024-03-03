@@ -5,23 +5,19 @@ const LoginStyle = StyleSheet.create({
     LoginScreen: {
         height: '100%',
         width: '100%',
-        backgroundColor: '#fff',
-        marginTop: Constants.statusBarHeight || 0,
-        paddingVertical: 20,
-        paddingHorizontal: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'flex-end',
+        flex: 1,
     },
 
-    SignWithGoogle: {
+    Next: {
         width: '90%',
-        backgroundColor: 'rgb(0, 0, 0)',
-        paddingVertical: 16,
+        backgroundColor: '#fff',
+        height: 55,
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row',
-        gap: 10,
-        borderRadius: 12,
+        borderRadius: 50,
+        marginBottom: 15
     },
 })
 

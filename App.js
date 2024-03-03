@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Login from './src/components/login/page';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const OAuthtoken = ' ';
+const OAuthtoken = '';
 
 export default function App() {
   return (
