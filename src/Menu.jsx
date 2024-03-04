@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Foundation from 'react-native-vector-icons/Foundation';
 import Feather from 'react-native-vector-icons/Feather';
 
 import Home from './components/screens/Home';
@@ -30,25 +30,10 @@ const Menu = () => {
                     borderWidth: 0,
                     borderColor: 'transparent',
                     margin: 5,
-                    borderRadius: 50,
+                    backgroundColor: 'transparent'
                 },
             }}
         >
-
-            <Tab.Screen
-                name='Carrito'
-                component={Cart}
-
-                options={{
-                    headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialIcons name='shopping-bag' color={color} size={size} />
-                    ),
-                    tabBarActiveTintColor: ActiveColor,
-                    tabBarInactiveBackgroundColor: InActiveColor
-                }}
-            />
 
             <Tab.Screen
                 name='Inicio'
@@ -74,6 +59,21 @@ const Menu = () => {
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
                         <Feather name='search' color={color} size={size} />
+                    ),
+                    tabBarActiveTintColor: ActiveColor,
+                    tabBarInactiveBackgroundColor: InActiveColor
+                }}
+            />
+
+            <Tab.Screen
+                name='Carrito'
+                component={Cart}
+
+                options={{
+                    headerShown: false,
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name='bag-handle' color={color} size={size} />
                     ),
                     tabBarActiveTintColor: ActiveColor,
                     tabBarInactiveBackgroundColor: InActiveColor

@@ -40,9 +40,11 @@ const ProfileStyle = StyleSheet.create({
 
     badge: {
         backgroundColor: '#dedede',
-        paddingVertical: 3,
+        paddingVertical: 5,
         paddingHorizontal: 15,
         borderRadius: 10,
+        flexDirection: 'row',
+        gap: 1
     },
 
     CerrarSesion: {

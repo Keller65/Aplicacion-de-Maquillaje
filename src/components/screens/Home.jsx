@@ -110,8 +110,7 @@ const Home = () => {
   return (
     <View style={HomeStyle.HomeScreen}>
       <View style={HomeStyle.StatusBar}>
-        <Icon name='grid' size={26} color='#000' />
-        <Text style={{ fontFamily: 'Poppins' }}>{hours <= 12 ? 'Buenos Dias!' : hours <= 18 ? 'Buenas Tardes!' : 'Buenas Noches!'}</Text>
+        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>{hours <= 12 ? 'Buenos Dias!' : hours <= 18 ? 'Buenas Tardes!' : 'Buenas Noches!'}</Text>
         <Image source={{ uri: photoUri }} style={{ width: 45, height: 45, borderRadius: 50 }} />
       </View>
 
@@ -127,7 +126,7 @@ const Home = () => {
           />
         </TouchableNativeFeedback>
       </View>
-
+      
       <View>
         <ScrollView style={HomeStyle.Oferts} horizontal={true} showsHorizontalScrollIndicator={false}>
           {productos.map((item) => (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, ScrollView, Pressable } from 'react-native';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -9,11 +9,12 @@ import ProductView from './modals/ProductView';
 import app from '../../DB/firebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchStyle from '../styles/SearchCSS';
+import MyCustomDropdown from '../screens/modals/DropDown';
 
 const Search = () => {
   const [fontsLoaded] = useFonts({
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
-    Poppins: require('../../../assets/fonts/PoppinsMedium.ttf'),
+    Poppins: require('../../../assets/fonts/PoppinsRegular.ttf'),
   });
 
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -23,6 +24,7 @@ const Search = () => {
   const [filteredProductos, setFilteredProductos] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [activeFilter, setActiveFilter] = useState(null);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -46,26 +48,30 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    if (searchValue.trim() !== '') {
-      const productosFiltrados = productos.filter((producto) => {
-        const productoLowerCase = (producto.producto || '').toLowerCase();
-        const marcaLowerCase = (producto.marca || '').toLowerCase();
-        const tipoLowerCase = (producto.tipo || '').toLowerCase();
-        const precioLowerCase = String(producto.precio - (producto.descuento || 0)).toLowerCase();
+    applyFilters(searchValue);
+  }, [searchValue, activeFilter, productos]);
 
-        return (
-          productoLowerCase.includes(searchValue.toLowerCase()) ||
-          marcaLowerCase.includes(searchValue.toLowerCase()) ||
-          tipoLowerCase.includes(searchValue.toLowerCase()) ||
-          precioLowerCase.includes(searchValue.toLowerCase())
-        );
-      });
+  const applyFilters = (text) => {
+    const productosFiltrados = productos.filter((producto) => {
+      const productoLowerCase = (producto.producto || '').toLowerCase();
+      const marcaLowerCase = (producto.marca || '').toLowerCase();
+      const tipoLowerCase = (producto.tipo || '').toLowerCase();
+      const precioLowerCase = String(producto.precio - (producto.descuento || 0)).toLowerCase();
 
-      setFilteredProductos(productosFiltrados);
-    } else {
-      setFilteredProductos([]);
-    }
-  }, [searchValue, productos]);
+      const filterByText = (
+        productoLowerCase.includes(text.toLowerCase()) ||
+        marcaLowerCase.includes(text.toLowerCase()) ||
+        tipoLowerCase.includes(text.toLowerCase()) ||
+        precioLowerCase.includes(text.toLowerCase())
+      );
+
+      const filterByBrand = activeFilter ? marcaLowerCase.includes(activeFilter.toLowerCase()) : true;
+
+      return filterByText && filterByBrand;
+    });
+
+    setFilteredProductos(productosFiltrados);
+  };
 
   const DelteSearch = () => {
     setSearchValue('');
@@ -95,6 +101,7 @@ const Search = () => {
 
   const handleSearch = (text) => {
     setSearchValue(text);
+    applyFilters(text);
   };
 
   const saveToFavorites = async (id, isAdd) => {
@@ -141,6 +148,8 @@ const Search = () => {
 
   const ChangeFilter = (filterName) => {
     setActiveFilter(filterName);
+    applyFilters(searchValue);
+    console.log(filterName)
   };
 
   return (
@@ -158,7 +167,7 @@ const Search = () => {
           {searchValue ? <AntDesign onPress={DelteSearch} style={SearchStyle.closeIcon} name='close' size={15} color='rgba(0, 0, 0, 0.5)' /> : ''}
         </View>
 
-        <TouchableOpacity style={SearchStyle.FilterButton}>
+        <TouchableOpacity style={SearchStyle.FilterButton} onPress={() => setDropdownVisible(true)}>
           <Image style={{ height: 25, width: 25 }} source={require('../../../assets/filter.png')} />
         </TouchableOpacity>
       </View>
@@ -166,9 +175,11 @@ const Search = () => {
       <View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <View style={SearchStyle.FiltersContainer}>
-            <TouchableOpacity onPress={() => ChangeFilter('Todo')} style={activeFilter === 'Todo' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
-              <Text style={activeFilter === 'Todo' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Todo</Text>
-            </TouchableOpacity>
+
+            {activeFilter && (
+              <Pressable onPress={() => ChangeFilter(null)} style={SearchStyle.close}>
+                <Icon name='close-outline' color='#adacac' size={20} />
+              </Pressable>)}
 
             <TouchableOpacity onPress={() => ChangeFilter('Chanel')} style={activeFilter === 'Chanel' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
               <Text style={activeFilter === 'Chanel' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Chanel</Text>
@@ -188,6 +199,10 @@ const Search = () => {
 
             <TouchableOpacity onPress={() => ChangeFilter('Saint Laurent')} style={activeFilter === 'Saint Laurent' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
               <Text style={activeFilter === 'Saint Laurent' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Saint Laurent</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => ChangeFilter('Charlotte Tilbury')} style={activeFilter === 'Charlotte Tilbury' ? SearchStyle.FilterTrue : SearchStyle.FilterMarcas}>
+              <Text style={activeFilter === 'Charlotte Tilbury' ? SearchStyle.TextTrue : SearchStyle.TextMarca}>Charlotte Tilbury</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -218,11 +233,11 @@ const Search = () => {
 
                   {item.imagenProduct && <Image style={SearchStyle.ImagenProduct} source={{ uri: item.imagenProduct }} />}
 
-                  <Text style={{ fontFamily: 'Poppins' }}>{item.producto}</Text>
+                  <Text style={{ fontFamily: 'Montserrat' }}>{item.producto}</Text>
 
                   <View style={SearchStyle.ContainerPrice}>
-                    <Text style={{ fontFamily: 'Poppins' }}>{item.marca}</Text>
-                    <Text style={{ fontFamily: 'Poppins' }}>L. {(item.precio - (item.descuento || 0)).toFixed(0)}</Text>
+                    <Text style={{ fontFamily: 'Montserrat' }}>{item.marca}</Text>
+                    <Text style={{ fontFamily: 'Montserrat' }}>L. {(item.precio - (item.descuento || 0)).toFixed(0)}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -246,6 +261,22 @@ const Search = () => {
       {showProductView && (
         <ProductView productDetails={productos.find((p) => p.id === selectedProductId)} closeProductView={closeProductView} />
       )}
+
+      <MyCustomDropdown
+        visible={dropdownVisible}
+        setVisible={setDropdownVisible}
+        font={'Poppins'}
+        items={[
+          { label: 'Descuento', value: 'Descuento' },
+          { label: 'Temporada', value: 'Temporada' },
+          { label: 'Sephora', value: 'Sephora' },
+          { label: 'Kiko Milano', value: 'Kiko Milano' },
+        ]}
+        onSelect={(value) => {
+          console.log("Seleccionado:", value);
+        }}
+      />
+
     </View>
   );
 };

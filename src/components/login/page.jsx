@@ -37,7 +37,7 @@ export default function GoogleLogin() {
         }}
       />*/}
 
-      <TouchableNativeFeedback>
+      <TouchableNativeFeedback onPress={() => promptAsync()}>
         <View style={LoginStyle.Next}>
           <Text style={{ color: '#000', fontFamily: 'Poppins' }}>Continuar</Text>
         </View>

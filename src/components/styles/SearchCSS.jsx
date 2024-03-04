@@ -14,6 +14,15 @@ const SearchStyle = StyleSheet.create({
         paddingHorizontal: 10,
     },
 
+    SearchScreenOn: {
+        height: '100%',
+        width: '100%',
+        backgroundColor: 'rgba(0,0,0,0.15)',
+        paddingTop: Constants.statusBarHeight,
+        //paddingVertical: 20,
+        paddingHorizontal: 10,
+    },
+
     InputSearch: {
         paddingLeft: 8,
         height: '100%',
@@ -156,6 +165,24 @@ const SearchStyle = StyleSheet.create({
         height: 'auto',
         aspectRatio: '1.85/1',
         borderRadius: 20,
+    },
+
+    ModalFilter: {
+        height: '100%',
+        width: '100%',
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
+
+    close: {
+        backgroundColor: '#f0f0f0',
+        padding: 3,
+        borderRadius: 10,
+        height: 30,
+        width: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 })
 

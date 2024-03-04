@@ -5,7 +5,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Heart from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo'
+import Entypo from 'react-native-vector-icons/Entypo';
+import Pin from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileStyle from '../styles/ProfileCSS';
 
@@ -157,6 +158,7 @@ export default function Profile() {
                 </View>
 
                 <View style={ProfileStyle.badge}>
+                  <Pin name='location-pin' size={20} color='#7d7d7d' />
                   <Text style={{ fontFamily: 'PoppinsLigth', fontSize: 12, color: '#7d7d7d' }}>{country}</Text>
                 </View>
               </View>
