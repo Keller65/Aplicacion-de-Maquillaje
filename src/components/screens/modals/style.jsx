@@ -34,7 +34,10 @@ const Style = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         gap: 8,
-        position: 'relative'
+        position: 'relative',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'pink'
     },
 
     ContainerTonos: {
@@ -50,30 +53,20 @@ const Style = StyleSheet.create({
         bottom: 0,
         padding: 10,
         flexDirection: 'row',
+        justifyContent: 'space-between',
         gap: 10
     },
 
-    AddtoFavorite: {
-        //padding: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-        borderRadius: 15,
-        borderWidth: 0.5,
-        borderColor: '#000',
-        height: 55,
-        width: 55
-    },
-
     ButtonShopping: {
-        width: '80%',
+        width: 'auto',
         backgroundColor: '#000',
-        paddingVertical: 15,
+        paddingVertical: 18,
+        paddingHorizontal: 30,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
         gap: 10,
-        borderRadius: 20
+        borderRadius: 50
     },
 
     TextTonos: {
@@ -110,6 +103,13 @@ const Style = StyleSheet.create({
         borderRadius: 12,
         position: 'absolute',
         left: 0,
+    },
+
+    ContainerPriceStyle: {
+        justifyContent: 'center',
+        borderRadius: 20,
+        width: 'fit-contet',
+        paddingLeft: 10,
     },
 })
 

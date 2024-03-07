@@ -7,11 +7,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconSvg from 'react-native-vector-icons/MaterialCommunityIcons';
 import Heart from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Bag from '../../../../assets/bag.png';
 
 const ProductView = ({ productDetails, closeProductView }) => {
   const [fontloaded] = useFonts({
     Regular: require('../../../../assets/fonts/MontserratAlternates-Regular.ttf'),
-    Medium: require('../../../../assets/fonts/PoppinsRegular.ttf')
+    Medium: require('../../../../assets/fonts/PoppinsRegular.ttf'),
+    Bold: require('../../../../assets/fonts/PoppinsMedium.ttf')
   });
 
   const [fadeAnim] = useState(new Animated.Value(0));
@@ -64,7 +66,6 @@ const ProductView = ({ productDetails, closeProductView }) => {
 
   const toggleFavoriteProduct = () => {
     setFav(!fav)
-    //console.warn(fav)
   };
 
   return (
@@ -103,11 +104,10 @@ const ProductView = ({ productDetails, closeProductView }) => {
 
       <View style={Style.ConatinerProductoInfo}>
         <Text style={{ fontFamily: 'Regular', fontSize: 16 }}>{productDetails.producto}</Text>
-        <Text style={{ fontFamily: 'Regular', fontSize: 16 }}>{productDetails.marca}</Text>
 
-        <Text style={{ fontFamily: 'Regular', fontSize: 16, position: 'absolute', right: 0 }}>
-          L. {(productDetails.precio - productDetails?.descuento).toFixed(0)}
-        </Text>
+        <Pressable onPress={toggleFavoriteProduct}>
+          {fav === true ? <Heart name='heart' size={25} color='#000' /> : <Heart name='heart-outline' size={25} color='#000' />}
+        </Pressable>
       </View>
 
       <Text style={{ fontFamily: 'Regular', fontSize: 16, marginTop: 20, textAlign: 'justify', color: '#747474' }}>
@@ -124,14 +124,15 @@ const ProductView = ({ productDetails, closeProductView }) => {
       </View>
 
       <View style={Style.ContainerShopping}>
-        <TouchableOpacity onPress={AddToCart} style={Style.ButtonShopping}>
-          <MaterialIcons name='shopping-bag' size={25} color='#fff' />
-          <Text style={{ color: '#fff', fontFamily: 'Regular' }}>agregar a la cesta</Text>
-        </TouchableOpacity>
+        <View style={Style.ContainerPriceStyle}>
+          <Text style={{ fontSize: 11, fontFamily: 'Medium', color: '#C6C6C6' }}>Precio Total</Text>
+          <Text style={{ fontFamily: 'Bold', lineHeight: 20, fontSize: 17 }}>L.{(productDetails.precio - productDetails?.descuento).toFixed(0)}</Text>
+        </View>
 
-        <Pressable onPress={toggleFavoriteProduct} style={Style.AddtoFavorite}>
-          {fav === true ? <Heart name='heart' size={28} color='#ff776e' /> : <Heart name='heart-outline' size={28} color='#ff776e' />}
-        </Pressable>
+        <TouchableOpacity onPress={AddToCart} style={Style.ButtonShopping}>
+          <Image source={Bag} style={{ height: 25, width: 25 }} />
+          <Text style={{ color: '#fff', fontFamily: 'Regular' }}>Agregar al Carrito</Text>
+        </TouchableOpacity>
       </View>
 
     </Animated.View>

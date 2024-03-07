@@ -212,8 +212,8 @@ const Search = () => {
         <View style={{ paddingBottom: 10 }}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={SearchStyle.Post}>
-              <Image source={require('../../../assets/PostLogo.png')} style={SearchStyle.PostImage} />
-              <Image source={require('../../../assets/edit.png')} style={SearchStyle.PostImage} />
+              <Image source={require('../../../assets/Post/PostLogo.png')} style={SearchStyle.PostImage} />
+              <Image source={require('../../../assets/Post/edit.png')} style={SearchStyle.PostImage} />
             </View>
           </ScrollView>
         </View>
@@ -224,6 +224,7 @@ const Search = () => {
           <FlatList
             data={filteredProductos}
             keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => openProductView(item)}>
                 <View style={SearchStyle.CardProduct}>
