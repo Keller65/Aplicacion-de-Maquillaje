@@ -77,18 +77,6 @@ const SearchStyle = StyleSheet.create({
         paddingBottom: 10
     },
 
-    Icon: {
-        position: 'absolute',
-        left: 10,
-        top: 10,
-        zIndex: 99,
-        height: 30,
-        width: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 100
-    },
-
     //Pantalla de Busqueda no encontrada
 
     NoResultsContainer: {

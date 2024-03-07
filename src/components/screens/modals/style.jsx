@@ -110,6 +110,15 @@ const Style = StyleSheet.create({
         width: 'fit-contet',
         paddingLeft: 10,
     },
+
+    PressableFav: {
+        padding: 8,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 'auto',
+        width: 'auto',
+    },
 })
 
 export default Style;

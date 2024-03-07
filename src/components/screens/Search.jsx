@@ -16,8 +16,7 @@ const Search = () => {
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
     Poppins: require('../../../assets/fonts/PoppinsRegular.ttf'),
   });
-
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  
   const [showProductView, setShowProductView] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [productos, setProductos] = useState([]);
@@ -75,18 +74,6 @@ const Search = () => {
 
   const DelteSearch = () => {
     setSearchValue('');
-  };
-
-  const toggleFavoriteProduct = (productId) => {
-    setSelectedProducts((prevSelected) => {
-      if (prevSelected.includes(productId)) {
-        saveToFavorites(productId, true);
-        return prevSelected.filter((id) => id !== productId);
-      } else {
-        saveToFavorites(productId, false);
-        return [...prevSelected, productId];
-      }
-    });
   };
 
   const openProductView = (product) => {
@@ -228,10 +215,6 @@ const Search = () => {
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => openProductView(item)}>
                 <View style={SearchStyle.CardProduct}>
-                  <TouchableOpacity style={SearchStyle.Icon} onPress={() => toggleFavoriteProduct(item.id)}>
-                    <Icon name={selectedProducts.includes(item.id) ? 'heart-outline' : 'heart'} size={20} />
-                  </TouchableOpacity>
-
                   {item.imagenProduct && <Image style={SearchStyle.ImagenProduct} source={{ uri: item.imagenProduct }} />}
 
                   <Text style={{ fontFamily: 'Montserrat' }}>{item.producto}</Text>

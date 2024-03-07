@@ -63,8 +63,37 @@ const ProductView = ({ productDetails, closeProductView }) => {
     }
   }
 
-  const toggleFavoriteProduct = () => {
-    setFav(!fav)
+  const toggleFavoriteProduct = async () => {
+    try {
+      const favorites = await AsyncStorage.getItem('favorites');
+      let favoritesArray = favorites ? JSON.parse(favorites) : [];
+
+      const isProductInFavorites = favoritesArray.some(
+        (fav) => fav.id === productDetails.id
+      );
+
+      if (isProductInFavorites) {
+        favoritesArray = favoritesArray.filter(
+          (fav) => fav.id !== productDetails.id,
+        );
+      } else {
+        const productToSave = {
+          id: productDetails.id,
+          imagenProduct: productDetails.imagenProduct,
+          precio: productDetails.precio - productDetails?.descuento,
+          marca: productDetails.marca,
+          producto: productDetails.producto,
+          tono: productDetails.tonos[0]
+        };
+        favoritesArray.push(productToSave);
+      }
+
+      await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray));
+
+      setFav(!fav);
+    } catch (error) {
+      console.error('Error al guardar en AsyncStorage:', error);
+    }
   };
 
   return (
@@ -76,15 +105,13 @@ const ProductView = ({ productDetails, closeProductView }) => {
 
         <Text style={{ textAlign: 'center', fontFamily: 'Medium' }}>{productDetails.marca}</Text>
 
-        {
-          productDetails.descuento ?
-            <View style={Style.Badge}>
-              <IconSvg name='ticket-confirmation' size={20} color='#D4A373' />
-              <Text style={{ fontFamily: 'Regular', fontSize: 11, color: '#D4A373' }}> -{(productDetails?.descuento / productDetails.precio * 100).toFixed(0)}%</Text>
-            </View>
-            :
-            null
-        }
+        {productDetails.descuento ?
+          <View style={Style.Badge}>
+            <IconSvg name='ticket-confirmation' size={20} color='#D4A373' />
+            <Text style={{ fontFamily: 'Regular', fontSize: 11, color: '#D4A373' }}> -{(productDetails?.descuento / productDetails.precio * 100).toFixed(0)}%</Text>
+          </View>
+          :
+          null}
       </View>
 
       <View>
@@ -104,8 +131,8 @@ const ProductView = ({ productDetails, closeProductView }) => {
       <View style={Style.ConatinerProductoInfo}>
         <Text style={{ fontFamily: 'Regular', fontSize: 16 }}>{productDetails.producto}</Text>
 
-        <Pressable onPress={toggleFavoriteProduct}>
-          {fav === true ? <Heart name='heart' size={25} color='#000' /> : <Heart name='heart-outline' size={25} color='#000' />}
+        <Pressable onPress={toggleFavoriteProduct} style={Style.PressableFav}>
+          {fav === true ? <Heart name='heart' size={20} color='#000' /> : <Heart name='heart-outline' size={20} color='#000' />}
         </Pressable>
       </View>
 
