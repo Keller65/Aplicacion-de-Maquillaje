@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ProductView from './modals/ProductView';
 import app from '../../DB/firebaseConfig';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchStyle from '../styles/SearchCSS';
 import MyCustomDropdown from '../screens/modals/DropDown';
 
@@ -16,7 +15,7 @@ const Search = () => {
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
     Poppins: require('../../../assets/fonts/PoppinsRegular.ttf'),
   });
-  
+
   const [showProductView, setShowProductView] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [productos, setProductos] = useState([]);
@@ -40,6 +39,9 @@ const Search = () => {
         setProductos(productosData);
       } catch (error) {
         console.error('Error al obtener productos:', error);
+        throw new Error('Error al obtener productos');
+      } finally {
+        console.log('Operación de obtención de productos finalizada');
       }
     };
 
@@ -89,38 +91,6 @@ const Search = () => {
   const handleSearch = (text) => {
     setSearchValue(text);
     applyFilters(text);
-  };
-
-  const saveToFavorites = async (id, isAdd) => {
-    try {
-      const favorites = await AsyncStorage.getItem('favorites');
-      let favoritesArray = favorites ? JSON.parse(favorites) : [];
-
-      const selectedProductDetails = productos.find((p) => p.id === id);
-
-      if (selectedProductDetails) {
-        const productToSave = {
-          imagenProduct: selectedProductDetails.imagenProduct,
-          precio: selectedProductDetails.precio,
-          marca: selectedProductDetails.marca,
-          producto: selectedProductDetails.producto,
-        };
-
-        if (isAdd) {
-          if (favoritesArray.some((fav) => fav.id === id)) {
-            favoritesArray = favoritesArray.filter((fav) => fav.id !== id);
-          } else {
-            favoritesArray.push({ id, ...productToSave });
-          }
-        } else {
-          favoritesArray = favoritesArray.filter((fav) => fav.id !== id);
-        }
-
-        await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray));
-      }
-    } catch (error) {
-      console.error('Error al guardar en AsyncStorage:', error);
-    }
   };
 
   useEffect(() => {
