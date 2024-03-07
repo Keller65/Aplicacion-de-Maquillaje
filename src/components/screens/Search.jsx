@@ -212,8 +212,8 @@ const Search = () => {
         <View style={{ paddingBottom: 10 }}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={SearchStyle.Post}>
-              <Image source={require('../../../assets/Post/PostLogo.png')} style={SearchStyle.PostImage} />
-              <Image source={require('../../../assets/Post/edit.png')} style={SearchStyle.PostImage} />
+              <Image source={require('../../../assets/Post/PostLogo.webp')} style={SearchStyle.PostImage} />
+              <Image source={require('../../../assets/Post/edit.webp')} style={SearchStyle.PostImage} />
             </View>
           </ScrollView>
         </View>

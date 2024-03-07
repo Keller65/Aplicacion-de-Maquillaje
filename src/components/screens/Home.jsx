@@ -122,7 +122,7 @@ const Home = () => {
               height: '100%',
               transform: [{ scale: scaleValue }],
             }}
-            source={require('../../../assets/Post/PostLogo.png')}
+            source={require('../../../assets/Post/PostLogo.webp')}
           />
         </TouchableNativeFeedback>
       </View>

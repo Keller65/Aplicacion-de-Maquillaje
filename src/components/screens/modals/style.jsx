@@ -37,7 +37,6 @@ const Style = StyleSheet.create({
         position: 'relative',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'pink'
     },
 
     ContainerTonos: {
@@ -60,7 +59,7 @@ const Style = StyleSheet.create({
     ButtonShopping: {
         width: 'auto',
         backgroundColor: '#000',
-        paddingVertical: 18,
+        paddingVertical: 15,
         paddingHorizontal: 30,
         alignItems: 'center',
         justifyContent: 'center',
