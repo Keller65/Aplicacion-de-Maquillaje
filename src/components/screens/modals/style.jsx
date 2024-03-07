@@ -48,11 +48,25 @@ const Style = StyleSheet.create({
         width: width,
         position: 'absolute',
         bottom: 0,
-        padding: 10
+        padding: 10,
+        flexDirection: 'row',
+        gap: 10
+    },
+
+    AddtoFavorite: {
+        //padding: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        borderRadius: 15,
+        borderWidth: 0.5,
+        borderColor: '#000',
+        height: 55,
+        width: 55
     },
 
     ButtonShopping: {
-        width: '100%',
+        width: '80%',
         backgroundColor: '#000',
         paddingVertical: 15,
         alignItems: 'center',

@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Text, TouchableOpacity, Animated, Easing, Image, View, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, Animated, Easing, Image, View, ScrollView, Pressable } from 'react-native';
 import Style from './style';
 import { useFonts } from 'expo-font';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconSvg from 'react-native-vector-icons/MaterialCommunityIcons';
+import Heart from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProductView = ({ productDetails, closeProductView }) => {
@@ -14,6 +15,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
   });
 
   const [fadeAnim] = useState(new Animated.Value(0));
+  const [fav, setFav] = useState(false);
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -60,6 +62,11 @@ const ProductView = ({ productDetails, closeProductView }) => {
     }
   }
 
+  const toggleFavoriteProduct = () => {
+    setFav(!fav)
+    //console.warn(fav)
+  };
+
   return (
     <Animated.View style={[Style.Screen, { opacity: fadeAnim }]}>
       <View style={{ width: '100%', position: 'relative', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -103,7 +110,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
         </Text>
       </View>
 
-      <Text style={{ fontFamily: 'Regular', fontSize: 16, marginTop: 20, textAlign: 'justify', color: '#747474'  }}>
+      <Text style={{ fontFamily: 'Regular', fontSize: 16, marginTop: 20, textAlign: 'justify', color: '#747474' }}>
         {productDetails.descripcion}
       </Text>
 
@@ -121,6 +128,10 @@ const ProductView = ({ productDetails, closeProductView }) => {
           <MaterialIcons name='shopping-bag' size={25} color='#fff' />
           <Text style={{ color: '#fff', fontFamily: 'Regular' }}>agregar a la cesta</Text>
         </TouchableOpacity>
+
+        <Pressable onPress={toggleFavoriteProduct} style={Style.AddtoFavorite}>
+          {fav === true ? <Heart name='heart' size={28} color='#ff776e' /> : <Heart name='heart-outline' size={28} color='#ff776e' />}
+        </Pressable>
       </View>
 
     </Animated.View>
