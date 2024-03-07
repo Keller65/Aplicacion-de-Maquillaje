@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, Image, ScrollView, Button, Animated, TouchableNativeFeedback } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Ticket from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFonts } from 'expo-font';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
@@ -50,6 +49,7 @@ const Home = () => {
   const [fontsLoaded] = useFonts({
     Poppins: require('../../../assets/fonts/PoppinsRegular.ttf'),
     Montserrat: require('../../../assets/fonts/MontserratAlternates-Regular.ttf'),
+    PoppinsBold: require('../../../assets/fonts/PoppinsMedium.ttf')
   });
 
   useEffect(() => {
@@ -106,11 +106,14 @@ const Home = () => {
       useNativeDriver: false,
     }).start();
   };
-  
+
   return (
     <View style={HomeStyle.HomeScreen}>
       <View style={HomeStyle.StatusBar}>
-        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>{hours <= 12 ? 'Buenos Dias!' : hours <= 18 ? 'Buenas Tardes!' : 'Buenas Noches!'}</Text>
+        <View>
+          <Text style={{ fontFamily: 'Poppins', fontSize: 13, lineHeight: 17, color: '#939393' }}>Hola Aerley,</Text>
+          <Text style={{ fontFamily: 'PoppinsBold', fontSize: 18, lineHeight: 20 }}>{hours <= 12 ? 'Buenos Dias!' : hours <= 18 ? 'Buenas Tardes!' : 'Buenas Noches!'}</Text>
+        </View>
         <Image source={{ uri: photoUri }} style={{ width: 45, height: 45, borderRadius: 50 }} />
       </View>
 
@@ -126,7 +129,7 @@ const Home = () => {
           />
         </TouchableNativeFeedback>
       </View>
-      
+
       <View>
         <ScrollView style={HomeStyle.Oferts} horizontal={true} showsHorizontalScrollIndicator={false}>
           {productos.map((item) => (

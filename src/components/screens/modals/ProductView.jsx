@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, Animated, Easing, Image, View, ScrollView, Pressable } from 'react-native';
 import Style from './style';
 import { useFonts } from 'expo-font';
 import Icon from 'react-native-vector-icons/EvilIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconSvg from 'react-native-vector-icons/MaterialCommunityIcons';
 import Heart from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -91,12 +90,12 @@ const ProductView = ({ productDetails, closeProductView }) => {
       <View>
         <ScrollView horizontal={true} style={Style.ContainerImageView} showsHorizontalScrollIndicator={false}>
           <View style={Style.ImageView}>
-            <Image source={{ uri: productDetails.imagenProduct }} style={{ width: '100%', height: '100%' }} />
+            <Image source={{ uri: productDetails.imagenProduct }} style={{ width: '100%', height: '100%', aspectRatio: '1' }} />
           </View>
 
           {productDetails.tonoImage ? (
             <View style={Style.TonoImage}>
-              <Image source={{ uri: productDetails.tonoImage }} style={{ width: '100%', height: '100%' }} />
+              <Image source={{ uri: productDetails.tonoImage }} style={{ width: '100%', height: '100%', aspectRatio: '1' }} />
             </View>
           ) : null}
         </ScrollView>
@@ -125,8 +124,8 @@ const ProductView = ({ productDetails, closeProductView }) => {
 
       <View style={Style.ContainerShopping}>
         <View style={Style.ContainerPriceStyle}>
-          <Text style={{ fontSize: 11, fontFamily: 'Medium', color: '#C6C6C6' }}>Precio Total</Text>
-          <Text style={{ fontFamily: 'Bold', lineHeight: 20, fontSize: 17 }}>L.{(productDetails.precio - productDetails?.descuento).toFixed(0)}</Text>
+          <Text style={{ fontSize: 11, fontFamily: 'Medium', color: '#C6C6C6', lineHeight: 17 }}>Precio Total</Text>
+          <Text style={{ fontFamily: 'Bold', lineHeight: 19, fontSize: 17, letterSpacing: -1 }}>L .{(productDetails.precio - productDetails?.descuento).toFixed(2)}</Text>
         </View>
 
         <TouchableOpacity onPress={AddToCart} style={Style.ButtonShopping}>
