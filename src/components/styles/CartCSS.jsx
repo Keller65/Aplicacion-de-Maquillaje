@@ -73,6 +73,18 @@ const CartStyle = StyleSheet.create({
         borderRadius: 50
     },
 
+    Cantidad: {
+        backgroundColor: '#D4A373',
+        height: 20,
+        width: 20,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        right: 5,
+        top: 5
+    },
+
     tono: {
         height: 12,
         width: 12,
@@ -120,22 +132,18 @@ const CartStyle = StyleSheet.create({
     BuyBtn: {
         backgroundColor: '#000',
         flexDirection: 'row',
-        width: '70%',
-        paddingVertical: 10,
+        width: '65%',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,
-        borderRadius: 18,
+        borderRadius: 50,
         position: 'relative'
     },
 
     PriceBuy: {
-        backgroundColor: 'transparent',
-        flexDirection: 'row',
         width: 'auto',
-        paddingVertical: 15,
+        paddingVertical: 10,
         paddingHorizontal: 20,
-        alignItems: 'center',
         justifyContent: 'center',
     },
 

@@ -45,6 +45,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
   const AddToCart = async () => {
     try {
       const itemToAdd = {
+        id: productDetails.id,
         precio: productDetails.precio - productDetails?.descuento,
         imagen: productDetails.imagenProduct,
         producto: productDetails.producto,
@@ -75,7 +76,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
       if (isProductInFavorites) {
         favoritesArray = favoritesArray.filter(
           (fav) => fav.id !== productDetails.id,
-          //console.error('se elimino de favoritos: ', productDetails.id)
+          console.error('se elimino de favoritos: ', productDetails.id)
         );
       } else {
         const productToSave = {
@@ -86,7 +87,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
           producto: productDetails.producto,
         };
         favoritesArray.push(productToSave);
-        //console.info('se agrego a favoritos: ', productToSave);
+        console.info('se agrego a favoritos: ', productToSave);
       }
 
       await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray));
@@ -99,6 +100,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
 
   return (
     <Animated.View style={[Style.Screen, { opacity: fadeAnim }]}>
+
       <View style={{ width: '100%', position: 'relative', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         <TouchableOpacity onPress={handleModalClose} style={Style.Close}>
           <Icon name='chevron-left' color='#000' size={33} />

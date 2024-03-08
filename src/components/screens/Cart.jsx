@@ -40,7 +40,20 @@ const Cart = () => {
         const favorites = await AsyncStorage.getItem('Carrito');
         if (favorites) {
           const parsedFavorites = JSON.parse(favorites);
-          setProductos(parsedFavorites);
+
+          // Group products by ID and create a new array with quantity information
+          const groupedProducts = parsedFavorites.reduce((acc, product) => {
+            const existingProduct = acc.find(p => p.producto === product.producto);
+            if (existingProduct) {
+              existingProduct.cantidad++;
+            } else {
+              acc.push({ ...product, cantidad: 1 });
+            }
+            return acc;
+          }, []);
+
+          setProductos(groupedProducts);
+          console.log(productos);
         }
       } catch (error) {
         console.error('Error al obtener productos del AsyncStorage:', error);
@@ -97,10 +110,17 @@ const Cart = () => {
     }
   };
 
-  const renderItem = ({ item, index }) => (
-    <Swipeable key={index} renderRightActions={() => renderRightActions(index)} friction={1}>
+  const renderItem = ({ item }) => (
+    <Swipeable key={item.producto} renderRightActions={() => renderRightActions(item.producto)} friction={1}>
       <View style={CartStyle.Producto}>
-        <Image style={CartStyle.ImagenProduct} source={{ uri: item.imagen }} />
+
+        <View style={{ position: 'relative' }}>
+          <Image style={CartStyle.ImagenProduct} source={{ uri: item.imagen }} />
+          <View style={CartStyle.Cantidad}>
+            <Text style={{ fontFamily: 'Poppins', fontSize: 10, lineHeight: 20, color: '#FFF5E7' }}>{item.cantidad}</Text>
+          </View>
+        </View>
+
         <View style={{ justifyContent: 'space-evenly' }}>
           <View>
             <Text style={{ fontFamily: 'Montserrat', fontSize: 13 }}>{item.producto}</Text>
@@ -109,11 +129,12 @@ const Cart = () => {
           <View style={[CartStyle.tono, { fontFamily: 'Montserrat', backgroundColor: item.tono }]}></View>
           <Text style={{ fontFamily: 'Montserrat2', fontSize: 10, lineHeight: 10 }}>L. {(item.precio).toFixed(0)}</Text>
         </View>
-        {item.estado ?
+        {item.estado ? (
           <View style={CartStyle.TagEstado}>
             <Ticket size={15} name='ticket-percent' color='#2fad33' />
             <Text style={{ fontFamily: 'Montserrat', fontSize: 8, color: '#2fad33' }}>Descuento</Text>
-          </View> : ''}
+          </View>
+        ) : ''}
       </View>
     </Swipeable>
   );
@@ -279,7 +300,8 @@ const Cart = () => {
           </TouchableOpacity>
 
           <View style={CartStyle.PriceBuy}>
-            <Text style={{ fontFamily: 'Montserrat', fontSize: 13 }}>L. {(Total).toFixed(2)}</Text>
+            <Text style={{ fontFamily: 'Poppins', fontSize: 10, color: '#C6C6C6' }}>Total</Text>
+            <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 15, lineHeight: 18 }}>L. {(Total).toFixed(2)}</Text>
           </View>
         </View>
 
