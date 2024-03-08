@@ -10,6 +10,7 @@ import loaderCart from '../../../assets/cart.png';
 import Store from '../../../assets/store.png';
 import CartStyle from '../styles/CartCSS';
 import app from '../../DB/firebaseConfig';
+import Package from '../../../assets/Package.png';
 import { useFonts } from 'expo-font';
 
 const large = Dimensions.get('window').width;
@@ -273,6 +274,7 @@ const Cart = () => {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <TouchableOpacity style={CartStyle.BuyBtn}>
+            <Image source={Package} style={{ height: 30, width: 30 }} />
             <Text style={{ color: '#fff' }}>Hacer Pedido</Text>
           </TouchableOpacity>
 

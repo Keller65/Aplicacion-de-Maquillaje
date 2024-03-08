@@ -31,6 +31,7 @@ export default function Profile() {
         const storedFavorites = await AsyncStorage.getItem('favorites');
         if (storedFavorites) {
           setFavorites(JSON.parse(storedFavorites));
+          console.log(favorites)
         }
       } catch (error) {
         console.error('Error loading favorites from AsyncStorage:', error);

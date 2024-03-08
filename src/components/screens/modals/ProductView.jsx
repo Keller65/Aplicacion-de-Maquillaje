@@ -75,6 +75,7 @@ const ProductView = ({ productDetails, closeProductView }) => {
       if (isProductInFavorites) {
         favoritesArray = favoritesArray.filter(
           (fav) => fav.id !== productDetails.id,
+          //console.error('se elimino de favoritos: ', productDetails.id)
         );
       } else {
         const productToSave = {
@@ -83,9 +84,9 @@ const ProductView = ({ productDetails, closeProductView }) => {
           precio: productDetails.precio - productDetails?.descuento,
           marca: productDetails.marca,
           producto: productDetails.producto,
-          tono: productDetails.tonos[0]
         };
         favoritesArray.push(productToSave);
+        //console.info('se agrego a favoritos: ', productToSave);
       }
 
       await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray));
